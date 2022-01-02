@@ -1,5 +1,8 @@
 # Mini indoor weather monitor
 
+# What is this?
+After using a really crappy indoor temp and humidity monitor, I wanted to build one for myself to see if I could do better. This is the result. Is it better? I have no idea, but at least it also has a forecast that I can trust and built the way I like.
+
 ## Hardware
 * esp32 (devkit v1)
 * bme280
@@ -11,7 +14,14 @@
 * pulls info from weather underground
 * uses various jpg and converted fonts stored in /data (Upload the stuff in data using Upload Filestystem Image)
 
-## TODO
-* parse and display 3 day forecast using the jpgs i crammed into eeprom
+## How to build
 
-Current repo currently uses platform io to develop and manage and deploy
+* Current repo currently uses platform io to develop and manage and deploy
+* If you want to use SPIFFS, upload the stuff in /data using platform io
+* Othewrise, if you want to use the sdcard, you'll need to change a few lines of code to source from that instead and to be sure to move everything from /data onto the sdcard
+
+
+## TODO
+* check if my sdcard is actually working on the extra lcds i picked up
+* parse and display 3 day forecast using the jpgs i crammed into SPIFFS
+* test and provide a pcbway buildout so you can order the board yourself
