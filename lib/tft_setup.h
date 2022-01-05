@@ -16,7 +16,8 @@
 #define TFT_MOSI 23
 #define TFT_SCLK 18
 #define TFT_CS   33  // Chip select control pin (library pulls permanently low
-#define TFT_DC   22  // (RS) Data Command control pin - must use a pin in the range 0-31
+// #define TFT_DC   22  // (RS) Data Command control pin - must use a pin in the range 0-31
+#define TFT_DC   26  // (RS) Data Command control pin - must use a pin in the range 0-31
 #define TFT_RST  32  // Reset pin, toggles on startup
 #define TFT_BL   4  // LED back-light
 #define SD_PIN 5
