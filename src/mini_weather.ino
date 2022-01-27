@@ -19,8 +19,8 @@
 #include <Wifi.h>
 #include <secrets.h>
 
-int TFT_W = 480;
-int TFT_H = 320;
+// int TFT_W = 480;
+// int TFT_H = 320;
  
 int PWM1_DutyCycle = 0;
 
@@ -188,13 +188,13 @@ void setup(void) {
 
 void loop() {
 
-  if (oriented == LANDSCAPE) {
-    TFT_W  = 480;
-    TFT_H  = 320;
-  } else {
-    TFT_W  = 320;
-    TFT_H  = 480;
-  }
+  // if (oriented == LANDSCAPE) {
+  //   TFT_W  = 480;
+  //   TFT_H  = 320;
+  // } else {
+  //   TFT_W  = 320;
+  //   TFT_H  = 480;
+  // }
 
   // === check light meter stuff and set display intensity
   if (lightMeter.measurementReady()) {

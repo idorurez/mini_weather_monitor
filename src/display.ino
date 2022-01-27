@@ -13,11 +13,11 @@ void displayIndoorConditions(sensors_event_t temp_event, sensors_event_t pressur
         tft.setTextColor(TFT_WHITE, TFT_BLACK);
         
         tft.setCursor(0,0);
-        tft.loadFont(AA_FONT_100);
+        tft.loadFont(AA_FONT_100, SD);
         tft.print((temp_event.temperature * 9/5) + 32, 1);
         tft.println("°");
         
-        tft.loadFont(AA_FONT_MED_70);
+        tft.loadFont(AA_FONT_MED_70, SD);
         tft.setCursor(0,80);
         tft.print(humidity_event.relative_humidity, 1);
         tft.println("%");
@@ -26,11 +26,11 @@ void displayIndoorConditions(sensors_event_t temp_event, sensors_event_t pressur
         tft.setTextColor(TFT_WHITE, TFT_BLACK);
         
         tft.setCursor(0,0);
-        tft.loadFont(AA_FONT_100);
+        tft.loadFont(AA_FONT_100, SD);
         tft.print((temp_event.temperature * 9/5) + 32, 1); 
         tft.println("°");
         
-        tft.loadFont(AA_FONT_MED_70);
+        tft.loadFont(AA_FONT_MED_70, SD);
         tft.setCursor(0,80);
         tft.print(humidity_event.relative_humidity, 1);
         tft.println("%");
@@ -50,7 +50,7 @@ void drawPressure(sensors_event_t pressure_event) {
         spr.setPivot(0, 28);      // bottom left corner of sprite as pivot
         spr.fillSprite(TFT_BLACK); // Fill the Sprite with black
 
-        spr.loadFont(AA_FONT_MED_26);
+        spr.loadFont(AA_FONT_MED_26, SD);
         spr.drawString(String(pressure_event.pressure) + " hPA", 0, 0); // test font  
         spr.pushRotated(90);
     } else {
