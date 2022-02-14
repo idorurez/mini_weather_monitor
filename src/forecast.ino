@@ -5,8 +5,6 @@
 #include <WiFiClient.h>
 #include <ArduinoJson.h>
 
-String latitude = "37.4959";
-String longitude = "-122.2764";
 // const char host_weather[] = "api.weather.com";
 
 // Number of milliseconds to wait without receiving any data before we give up
