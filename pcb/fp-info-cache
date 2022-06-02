@@ -1,4 +1,4 @@
-19854972892131113
+19856628311687456
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -84545,6 +84545,13 @@ POWERSUPPLYMB102
 0
 8
 8
+tilt
+KY020 Tilt
+
+
+0
+3
+3
 usini_sensors
 jack_3.5mm_TRRS
 Headphones with microphone connector, 3.5mm, 4 pins (http://www.qingpu-electronics.com/en/products/WQP-PJ320D-72.html)
