@@ -25,7 +25,6 @@
 // === backlight screen pwm
 int PWM1_DutyCycle = 0;
 
-
 // Buffer for data output
 char dataOut[256];
 volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
@@ -87,8 +86,8 @@ enum ForecastReq {
 };
 
 enum Orientation {
-  PORTRAIT = 0,
-  LANDSCAPE = 1,
+  PORTRAIT = 2,
+  LANDSCAPE = 3,
 };
 
 enum Orientation oriented = PORTRAIT;
@@ -122,14 +121,13 @@ void setup(void) {
 
    //========== Initialize SPIFFS and SDCARD
 
-  if (!SPIFFS.begin()) {
-    Serial.println("SPIFFS initialisation failed!");
-    while (1) yield(); // Stay here twiddling thumbs waiting
-  }
+  // if (!SPIFFS.begin()) {
+  //   Serial.println("SPIFFS initialisation failed!");
+  //   while (1) yield(); // Stay here twiddling thumbs waiting
+  // }
 
  if (!SD.begin()) {
     Serial.println("Card Mount Failed");
-    return;
   }
   uint8_t cardType = SD.cardType();
 
@@ -206,7 +204,7 @@ void setup(void) {
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 }
 
-void loop() {
+void loop() { 
   setOrientation();
 
   tft.setTextWrap(true, true);
@@ -256,22 +254,26 @@ void sampleIndoorAtmo() {
 }
 
 void setOrientation() {
+  
   int curr_state = digitalRead(tilt_pin);
   if (curr_state == HIGH) {
     if (oriented == LANDSCAPE) {
       triggerUpdate = true;
     }
+    Serial.println("orientation is PORTRAIT");
     oriented = PORTRAIT;
-    tft.setRotation(0);
+    // tft.setRotation(oriented);
     TFT_W = 320;
     TFT_H = 480;
   } else {
     if (oriented == PORTRAIT) {
       triggerUpdate = true;
     }
+    Serial.println("orientation is LANDSCAPE");
     oriented = LANDSCAPE;
-    tft.setRotation(1);
+    // tft.setRotation(oriented);
     TFT_W = 480;
     TFT_H = 320;
   }
+  tft.setRotation(oriented);
 }

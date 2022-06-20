@@ -200,7 +200,6 @@ void drawForecast(ForecastParsed forecast, int x, int y) {
     tft.setTextDatum(MC_DATUM);
     // Serial.println(forecast.dayOfWeek);
     tft.drawString(forecast.dayOfWeek, x+centerOffset, y+128);
-    // tft.drawString("TEST", x+centerOffset, y+128);
     tft.drawString(String(forecast.temperatureMin) + "°/" + String(forecast.temperatureMax) + "°", x+centerOffset, y+143, 4);
     tft.drawString(String(forecast.precipChance) + "% " + String(forecast.qpf) + " in", x+centerOffset, y+158);
     tft.drawString(String(forecast.wxPhraseShort), x+centerOffset, y+173);
@@ -215,14 +214,14 @@ void drawLocation(LocationParsed location, int x, int y) {
 void drawAllForecast() {
 
     if (oriented == LANDSCAPE) {
-        Serial.println("DRAWING ALL FORCAST LANDSCAPE");
+        Serial.println("DRAWING ALL FORECAST LANDSCAPE");
         drawTodaysForecast(parseCurrentForecastResp(forecastResp), (TFT_W-215), 0);
         for (int i=1; i<5; i++) {
             drawForecast(parseExtendedForecastResp(forecastResp, i), (TFT_W/4) * (i-1), (TFT_H/2)-22);
         }
         drawLocation(parseLocation(locationResp), 315, (TFT_H/2)-25);
     } else {
-        Serial.println("DRAWING ALL FORCAST PORTRAIT");
+        Serial.println("DRAWING ALL FORECAST PORTRAIT");
         drawTodaysForecast(parseCurrentForecastResp(forecastResp), 50, 350);
         // drawLocation(parseLocation(locationResp), 0, 125);
     }
