@@ -421,7 +421,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "mini_weather_monitor.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""

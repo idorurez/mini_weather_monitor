@@ -22555,6 +22555,11 @@
       (net 10 "+3V3") (pinfunction "VCC2") (pintype "unspecified") (tstamp 06d1c502-415c-4ce3-864d-2b193126c1cb))
     (pad "8" thru_hole rect (at 5.54 4 90) (size 1.524 1.524) (drill 0.9144) (layers *.Cu *.Mask)
       (net 9 "GND") (pinfunction "GND") (pintype "unspecified") (tstamp a15eea18-fa46-404d-9cbe-4616ab6aa2b5))
+    (model "${KICAD6_3DMODEL_DIR}/PowerSupply.3dshapes/Modelo3D_AR0484.step"
+      (offset (xyz 25.25 17.5 -47.25))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 180))
+    )
   )
 
   (gr_rect (start 66 64) (end 201 136) (layer "Edge.Cuts") (width 0.1) (fill none) (tstamp 55fa5fa0-9426-4801-b40c-682e71189d8a))

@@ -88,6 +88,7 @@ ForecastParsed parseCurrentForecastResp(String json) {
   // Parse JSON object
   DeserializationError error = deserializeJson(doc, json);
   ForecastParsed parsedInfo;
+
   if (error) {
     Serial.print(F("deserializeJson() failed: "));
     Serial.println(error.f_str());

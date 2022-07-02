@@ -21,6 +21,7 @@
 #include <Wifi.h>
 #include <secrets.h>
 #include <TinyGPSPlus.h>
+#include <SPIFFS.h>
 
 // === backlight screen pwm
 int PWM1_DutyCycle = 0;
@@ -51,6 +52,8 @@ BH1750 lightMeter(0x23);
 TFT_eSPI tft = TFT_eSPI();
 TFT_eSprite spr = TFT_eSprite(&tft); // Sprite object
 TFT_eSprite sprTime = TFT_eSprite(&tft);
+TFT_eSprite sprForecastBlock = TFT_eSprite(&tft);
+TFT_eSprite sprTodaysForecastBlock = TFT_eSprite(&tft);
 
 sensors_event_t temp_event, pressure_event, humidity_event;
 
@@ -73,6 +76,8 @@ struct ForecastParsed {
   const char* uvDescription;
   int uvIndex;
 };
+
+ForecastParsed parsed;
 
 struct LocationParsed {
   const char* neighborhood;
@@ -151,7 +156,7 @@ void setup(void) {
   Serial.printf("SD Card Size: %lluMB\n", cardSize);
   Serial.println("initialisation done.");  
 
-  // File root = SD.open("/");
+  File root = SD.open("/");
   // printDirectory(root, 0);
 
 
@@ -207,8 +212,6 @@ void setup(void) {
 void loop() { 
   setOrientation();
 
-  tft.setTextWrap(true, true);
-
   // === check light meter stuff and set display intensity
   if (lightMeter.measurementReady()) {
     float lux = lightMeter.readLightLevel();
@@ -218,6 +221,12 @@ void loop() {
 
   // === check if we are scheduled to update indoor temps
   currTime = millis();
+
+  if (triggerUpdate) {
+    // clear the screen if we've triggered an update based on orientation
+     tft.fillRect(0, 0, TFT_W, TFT_H, TFT_BLACK);
+  }
+
   if ((currTime - bmeUpdateTime > bmeUpdateDelay) || triggerUpdate ) {
     sampleIndoorAtmo();
     displayIndoorConditions(temp_event, pressure_event, humidity_event);
@@ -228,7 +237,7 @@ void loop() {
   if ((currTime - weather5dayUpdateTime > weather5dayDelay) || triggerUpdate) {
     
     if (!triggerUpdate) {
-      Serial.println("triggered update wifi connect");
+      // only connect to wifi if we're not flippin' around
       wifiConnect();
       forecastResp = getForecast(FIVEDAY); 
       locationResp = getLocation();
@@ -254,25 +263,23 @@ void sampleIndoorAtmo() {
 }
 
 void setOrientation() {
-  
   int curr_state = digitalRead(tilt_pin);
-  if (curr_state == HIGH) {
+  if (curr_state == LOW) {
     if (oriented == LANDSCAPE) {
       triggerUpdate = true;
     }
-    Serial.println("orientation is PORTRAIT");
+    // Serial.println("orientation is PORTRAIT");
     oriented = PORTRAIT;
-    // tft.setRotation(oriented);
+    
     TFT_W = 320;
     TFT_H = 480;
   } else {
     if (oriented == PORTRAIT) {
       triggerUpdate = true;
     }
-    Serial.println("orientation is LANDSCAPE");
+    // Serial.println("orientation is LANDSCAPE");
     oriented = LANDSCAPE;
-    // tft.setRotation(oriented);
-    TFT_W = 480;
+     TFT_W = 480;
     TFT_H = 320;
   }
   tft.setRotation(oriented);
