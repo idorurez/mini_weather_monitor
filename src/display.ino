@@ -73,6 +73,8 @@ void printLocalTime(int x, int y){
 
 void displayIndoorConditions(sensors_event_t temp_event, sensors_event_t pressure_event, sensors_event_t humidity_event) {
 
+    float tempF = ((temp_event.temperature * 9/5) + 32)  + BME280_TEMP_ADJUST;
+
     if (oriented == LANDSCAPE) {
 
         tft.fillRect(0, 0, TFT_W/2, (TFT_H/2) - 20, TFT_BLACK);
@@ -80,7 +82,7 @@ void displayIndoorConditions(sensors_event_t temp_event, sensors_event_t pressur
         
         tft.setCursor(0,0);
         tft.loadFont(AA_FONT_100, SD);
-        tft.print((temp_event.temperature * 9/5) + 32, 1);
+        tft.print(tempF, 1);
         tft.println("°");
         
         tft.loadFont(AA_FONT_70, SD);
@@ -95,7 +97,7 @@ void displayIndoorConditions(sensors_event_t temp_event, sensors_event_t pressur
         
         tft.setCursor(5,0);
         tft.loadFont(AA_FONT_115, SD);
-        tft.print((temp_event.temperature * 9/5) + 32, 1); 
+        tft.print(tempF, 1); 
         tft.println("°");
         
         tft.loadFont(AA_FONT_90, SD);
@@ -213,15 +215,13 @@ void drawAllForecast() {
     parsed = parseCurrentForecastResp(forecastResp);
 
     if (oriented == LANDSCAPE) {
-        Serial.println("DRAWING ALL FORECAST LANDSCAPE");
+        
         drawTodaysForecast(parsed, (TFT_W-215), 0);
         for (int i=1; i<5; i++) {
             drawForecast(parseExtendedForecastResp(forecastResp, i), (TFT_W/4) * (i-1), (TFT_H/2)-22);
         }
         drawLocation(parseLocation(locationResp), 315, (TFT_H/2)-25);
     } else {
-        Serial.println("DRAWING ALL FORECAST PORTRAIT");
-        Serial.println("tonight ? " + String(parsed.dayOfWeek));
         drawTodaysForecast(parsed, 50, 350);
         // drawLocation(parseLocation(locationResp), 0, 125);
     }

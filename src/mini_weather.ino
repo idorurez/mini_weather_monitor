@@ -32,12 +32,14 @@ volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin h
 
 // BME280
 #define SEALEVELPRESSURE_HPA (1013.25)
+#define BME280_TEMP_ADJUST -2
+
 Adafruit_BME280 bme; // software SPI
 Adafruit_Sensor *bme_temp;
 Adafruit_Sensor *bme_pressure;
 Adafruit_Sensor *bme_humidity;
 
-unsigned long bmeUpdateDelay = 30 * 1000; // 30 seconds for bme update
+unsigned long bmeUpdateDelay = 60 * 1000; // 60 seconds for bme update
 unsigned long weather5dayDelay = 30 * 60 * 1000; // 30 minutes
 
 unsigned long bmeUpdateTime = 0;
@@ -129,7 +131,7 @@ void setup(void) {
   // if (!SPIFFS.begin()) {
   //   Serial.println("SPIFFS initialisation failed!");
   //   while (1) yield(); // Stay here twiddling thumbs waiting
-  // }
+//   // }
 
  if (!SD.begin()) {
     Serial.println("Card Mount Failed");
@@ -138,7 +140,7 @@ void setup(void) {
 
   if (cardType == CARD_NONE) {
     Serial.println("No SD card attached");
-    return;
+    // return;
   }
 
   Serial.print("SD Card Type: ");
@@ -168,6 +170,11 @@ void setup(void) {
 
   unsigned bme_status;
   bme_status = bme.begin(0x76);
+  bme.setSampling(Adafruit_BME280::MODE_FORCED,
+    Adafruit_BME280::SAMPLING_X1, // temperature
+    Adafruit_BME280::SAMPLING_X1, // pressure
+    Adafruit_BME280::SAMPLING_X1, // humidity
+    Adafruit_BME280::FILTER_OFF );
   bme_temp = bme.getTemperatureSensor();
   bme_pressure = bme.getPressureSensor();
   bme_humidity = bme.getHumiditySensor();
@@ -215,7 +222,10 @@ void loop() {
   // === check light meter stuff and set display intensity
   if (lightMeter.measurementReady()) {
     float lux = lightMeter.readLightLevel();
+    // Serial.println("lux level is " + String(lux) + "\n");
     PWM1_DutyCycle = (0.85 * lux) + 1;
+    PWM1_DutyCycle = constrain(PWM1_DutyCycle, 0.001, 90);
+    // Serial.println("Duty cycle is " + String(PWM1_DutyCycle) + "\n");
     ledcWrite(PWM1_CH, PWM1_DutyCycle);
   }
 
@@ -264,7 +274,7 @@ void sampleIndoorAtmo() {
 
 void setOrientation() {
   int curr_state = digitalRead(tilt_pin);
-  if (curr_state == LOW) {
+  if (curr_state != LOW) {
     if (oriented == LANDSCAPE) {
       triggerUpdate = true;
     }
