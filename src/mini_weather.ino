@@ -131,10 +131,11 @@ void setup(void) {
   // if (!SPIFFS.begin()) {
   //   Serial.println("SPIFFS initialisation failed!");
   //   while (1) yield(); // Stay here twiddling thumbs waiting
-//   // }
+  // }
 
  if (!SD.begin()) {
     Serial.println("Card Mount Failed");
+    ESP.restart();
   }
   uint8_t cardType = SD.cardType();
 
@@ -170,6 +171,21 @@ void setup(void) {
 
   unsigned bme_status;
   bme_status = bme.begin(0x76);
+
+  if (!bme_status) {
+    Serial.println("Could not find a valid BME280 sensor, check wiring, address, sensor ID!");
+    Serial.print("SensorID was: 0x"); Serial.println(bme.sensorID(),16);
+    Serial.print("        ID of 0xFF probably means a bad address, a BMP 180 or BMP 085\n");
+    Serial.print("   ID of 0x56-0x58 represents a BMP 280,\n");
+    Serial.print("        ID of 0x60 represents a BME 280.\n");
+    Serial.print("        ID of 0x61 represents a BME 680.\n");
+    ESP.restart();
+  } else {
+    bme_temp->printSensorDetails();
+    bme_pressure->printSensorDetails();
+    bme_humidity->printSensorDetails();
+  }
+
   bme.setSampling(Adafruit_BME280::MODE_FORCED,
     Adafruit_BME280::SAMPLING_X1, // temperature
     Adafruit_BME280::SAMPLING_X1, // pressure
@@ -179,25 +195,14 @@ void setup(void) {
   bme_pressure = bme.getPressureSensor();
   bme_humidity = bme.getHumiditySensor();
 
-  if (!bme_status) {
-    Serial.println("Could not find a valid BME280 sensor, check wiring, address, sensor ID!");
-    Serial.print("SensorID was: 0x"); Serial.println(bme.sensorID(),16);
-    Serial.print("        ID of 0xFF probably means a bad address, a BMP 180 or BMP 085\n");
-    Serial.print("   ID of 0x56-0x58 represents a BMP 280,\n");
-    Serial.print("        ID of 0x60 represents a BME 280.\n");
-    Serial.print("        ID of 0x61 represents a BME 680.\n");
-        
-  } else {
-    bme_temp->printSensorDetails();
-    bme_pressure->printSensorDetails();
-    bme_humidity->printSensorDetails();
-  }
+  bme.takeForcedMeasurement();
 
   if (lightMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE)) {
     Serial.println(F("BH1750 Advanced begin"));
   }
   else {
     Serial.println(F("Error initialising BH1750"));
+    ESP.restart();
   }
 
   //========== Get and display initial readings for weather
@@ -209,23 +214,22 @@ void setup(void) {
   locationResp = getLocation();
 
   drawAllForecast();
-  sampleIndoorAtmo();
-  displayIndoorConditions(temp_event, pressure_event, humidity_event);
+  // sampleIndoorAtmo();
+  displayIndoorConditions(bme.readTemperature(), bme.readPressure(), bme.readHumidity());
   weather5dayUpdateTime = currTime;
 
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 }
 
 void loop() { 
+  bme.takeForcedMeasurement();
   setOrientation();
 
   // === check light meter stuff and set display intensity
   if (lightMeter.measurementReady()) {
     float lux = lightMeter.readLightLevel();
-    // Serial.println("lux level is " + String(lux) + "\n");
     PWM1_DutyCycle = (0.85 * lux) + 1;
     PWM1_DutyCycle = constrain(PWM1_DutyCycle, 0.001, 90);
-    // Serial.println("Duty cycle is " + String(PWM1_DutyCycle) + "\n");
     ledcWrite(PWM1_CH, PWM1_DutyCycle);
   }
 
@@ -236,10 +240,11 @@ void loop() {
     // clear the screen if we've triggered an update based on orientation
      tft.fillRect(0, 0, TFT_W, TFT_H, TFT_BLACK);
   }
-
-  if ((currTime - bmeUpdateTime > bmeUpdateDelay) || triggerUpdate ) {
-    sampleIndoorAtmo();
-    displayIndoorConditions(temp_event, pressure_event, humidity_event);
+  // Serial.printf("currTime is %d\n", currTime);
+  if (((currTime - bmeUpdateTime) > bmeUpdateDelay) || triggerUpdate ) {
+    // Serial.printf("UPDATING AT %d\n", currTime);
+    // sampleIndoorAtmo();
+    displayIndoorConditions(bme.readTemperature(), bme.readPressure(), bme.readHumidity());
     bmeUpdateTime = currTime;
   }
 
@@ -255,8 +260,7 @@ void loop() {
 
     weather5dayUpdateTime = currTime;
     drawAllForecast();
-    sampleIndoorAtmo();
-    drawPressure(pressure_event);
+    drawPressure(bme.readPressure());
   }
   
   printLocalTime(0, 175);
@@ -264,12 +268,6 @@ void loop() {
   if (triggerUpdate) {
     triggerUpdate = false;
   }
-}
-
-void sampleIndoorAtmo() {
-    bme_temp->getEvent(&temp_event);
-    bme_pressure->getEvent(&pressure_event);
-    bme_humidity->getEvent(&humidity_event);
 }
 
 void setOrientation() {

@@ -38,10 +38,10 @@ void printLocalTime(int x, int y){
     sprTime.loadFont(AA_FONT_65);
     sprTime.setCursor(5, 0);
     sprTime.println(&timeinfo, "%H:%M:%S"); // print time
-    sprTime.setCursor(5, 55);
+    sprTime.setCursor(5, 58);
     sprTime.loadFont(AA_FONT_55);
     sprTime.println(&timeinfo, "%A");   // day of the week
-    sprTime.setCursor(5, 105);
+    sprTime.setCursor(5, 108);
     sprTime.println(&timeinfo, "%B %d"); // month and date
     sprTime.pushSprite(x, y);
   }
@@ -71,9 +71,10 @@ void printLocalTime(int x, int y){
   // Serial.println();
 }
 
-void displayIndoorConditions(sensors_event_t temp_event, sensors_event_t pressure_event, sensors_event_t humidity_event) {
+void displayIndoorConditions(float te, float pe, float he) {
 
-    float tempF = ((temp_event.temperature * 9/5) + 32)  + BME280_TEMP_ADJUST;
+    float tempF = ((te * 9/5) + 32)  + BME280_TEMP_ADJUST;
+
 
     if (oriented == LANDSCAPE) {
 
@@ -87,7 +88,7 @@ void displayIndoorConditions(sensors_event_t temp_event, sensors_event_t pressur
         
         tft.loadFont(AA_FONT_70, SD);
         tft.setCursor(0,80);
-        tft.print(humidity_event.relative_humidity, 1);
+        tft.print(he, 1);
         tft.println("%");
 
     } else {
@@ -102,14 +103,16 @@ void displayIndoorConditions(sensors_event_t temp_event, sensors_event_t pressur
         
         tft.loadFont(AA_FONT_90, SD);
         tft.setCursor(5,95);
-        tft.print(humidity_event.relative_humidity, 1);
+        tft.print(he, 1);
         tft.println("%");
     }
 
-    drawPressure(pressure_event);
+    drawPressure(pe);
 }
 
-void drawPressure(sensors_event_t pressure_event) {
+void drawPressure(float pressure) {
+
+    float pe = pressure / 100.0;
 
     if (oriented == LANDSCAPE) {
 
@@ -121,7 +124,7 @@ void drawPressure(sensors_event_t pressure_event) {
         spr.fillSprite(TFT_BLACK); // Fill the Sprite with black
 
         spr.loadFont(AA_FONT_26, SD);
-        spr.drawString(String(pressure_event.pressure) + " hPA", 0, 0); // test font  
+        spr.drawString(String(pe) + " hPA", 0, 0); // test font  
         spr.pushRotated(90);
     } else {
         
@@ -133,7 +136,7 @@ void drawPressure(sensors_event_t pressure_event) {
         spr.fillSprite(TFT_BLACK); // Fill the Sprite with black
 
         spr.loadFont(AA_FONT_30, SD);
-        spr.drawString(String(pressure_event.pressure) + "hPA", 0, 0); // test font  
+        spr.drawString(String(pe) + " hPA", 0, 0); // test font  
         spr.pushRotated(90);
     }
 }
@@ -196,8 +199,6 @@ void drawForecast(ForecastParsed forecast, int x, int y) {
     drawJpeg(iconPath.c_str(), x, y);
 
     tft.loadFont(AA_FONT_14, SD);
-    Serial.println("day of week ? " + String(parsed.dayOfWeek));
-
     tft.drawString(forecast.dayOfWeek, x+centerOffset, y+128);
     tft.drawString(String(forecast.temperatureMin) + "°/" + String(forecast.temperatureMax) + "°", x+centerOffset, y+143, 4);
     tft.drawString(String(forecast.precipChance) + "% " + String(forecast.qpf) + " in", x+centerOffset, y+158);
