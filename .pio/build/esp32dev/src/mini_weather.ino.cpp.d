@@ -159,6 +159,7 @@
  .pio/libdeps/esp32dev/EspSoftwareSerial/src/SoftwareSerial.h \
  .pio/libdeps/esp32dev/EspSoftwareSerial/src/circular_queue/circular_queue.h \
  .pio/libdeps/esp32dev/EspSoftwareSerial/src/circular_queue/Delegate.h \
+ C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_system/include/esp_task_wdt.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src/Wire.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal.h \
  .pio/libdeps/esp32dev/Adafruit\ Unified\ Sensor/Adafruit_Sensor.h \

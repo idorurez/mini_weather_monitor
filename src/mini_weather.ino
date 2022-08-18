@@ -12,6 +12,7 @@
 #include <SD.h>
 #include <SoftwareSerial.h>
 #include "time.h"
+#include <esp_task_wdt.h>
 
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
@@ -22,6 +23,9 @@
 #include <secrets.h>
 #include <TinyGPSPlus.h>
 #include <SPIFFS.h>
+
+// timeout after 60 seconds
+#define WDT_TIMEOUT 60
 
 // === backlight screen pwm
 int PWM1_DutyCycle = 0;
@@ -56,6 +60,7 @@ TFT_eSprite spr = TFT_eSprite(&tft); // Sprite object
 TFT_eSprite sprTime = TFT_eSprite(&tft);
 TFT_eSprite sprForecastBlock = TFT_eSprite(&tft);
 TFT_eSprite sprTodaysForecastBlock = TFT_eSprite(&tft);
+TFT_eSprite sprLocation = TFT_eSprite(&tft);
 
 sensors_event_t temp_event, pressure_event, humidity_event;
 
@@ -108,6 +113,9 @@ int TFT_H = 320;
 int tilt_pin = 2;
 
 void setup(void) {
+  esp_task_wdt_init(WDT_TIMEOUT, true); //enable panic so ESP32 restarts
+  esp_task_wdt_add(NULL); //add current thread to WDT watch
+
   Serial.begin(115200);
   
   pinMode(tilt_pin, INPUT);
@@ -172,6 +180,16 @@ void setup(void) {
   unsigned bme_status;
   bme_status = bme.begin(0x76);
 
+  bme.setSampling(Adafruit_BME280::MODE_FORCED,
+    Adafruit_BME280::SAMPLING_X1, // temperature
+    Adafruit_BME280::SAMPLING_X1, // pressure
+    Adafruit_BME280::SAMPLING_X1, // humidity
+    Adafruit_BME280::FILTER_OFF );
+
+  bme_temp = bme.getTemperatureSensor();
+  bme_pressure = bme.getPressureSensor();
+  bme_humidity = bme.getHumiditySensor();
+
   if (!bme_status) {
     Serial.println("Could not find a valid BME280 sensor, check wiring, address, sensor ID!");
     Serial.print("SensorID was: 0x"); Serial.println(bme.sensorID(),16);
@@ -185,15 +203,6 @@ void setup(void) {
     bme_pressure->printSensorDetails();
     bme_humidity->printSensorDetails();
   }
-
-  bme.setSampling(Adafruit_BME280::MODE_FORCED,
-    Adafruit_BME280::SAMPLING_X1, // temperature
-    Adafruit_BME280::SAMPLING_X1, // pressure
-    Adafruit_BME280::SAMPLING_X1, // humidity
-    Adafruit_BME280::FILTER_OFF );
-  bme_temp = bme.getTemperatureSensor();
-  bme_pressure = bme.getPressureSensor();
-  bme_humidity = bme.getHumiditySensor();
 
   bme.takeForcedMeasurement();
 
@@ -222,6 +231,7 @@ void setup(void) {
 }
 
 void loop() { 
+  esp_task_wdt_reset();
   bme.takeForcedMeasurement();
   setOrientation();
 
@@ -272,7 +282,7 @@ void loop() {
 
 void setOrientation() {
   int curr_state = digitalRead(tilt_pin);
-  if (curr_state != LOW) {
+  if (curr_state == LOW) {
     if (oriented == LANDSCAPE) {
       triggerUpdate = true;
     }

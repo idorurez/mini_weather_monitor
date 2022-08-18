@@ -206,9 +206,27 @@ void drawForecast(ForecastParsed forecast, int x, int y) {
 }
 
 void drawLocation(LocationParsed location, int x, int y) {
-    tft.loadFont(AA_FONT_15, SD);
-    tft.setTextDatum(MC_DATUM);
-    tft.drawString(String(location.city) + "," + String(location.state), x, y);
+    if (oriented == LANDSCAPE) {
+    
+        x = 315;
+        y = (TFT_H / 2) - 25;
+        
+        tft.loadFont(AA_FONT_15, SD);
+        tft.setTextDatum(MC_DATUM);
+        tft.drawString(String(location.city) + "," + String(location.state), x, y);
+    } else {
+        tft.setPivot(TFT_W - 50, 350);     // pivot set on edge
+        // Create the Sprite
+        sprLocation.setColorDepth(1);       // just black and white mam
+        sprLocation.createSprite(180, 28);  // 160 x 100 sprite
+        sprLocation.setPivot(0, 28);      // bottom left corner of sprite as pivot
+        sprLocation.fillSprite(TFT_BLACK); // Fill the Sprite with black
+        sprLocation.loadFont(AA_FONT_15, SD);
+        sprLocation.drawString(String(location.city) + ", " + String(location.state), 0, 0);
+        sprLocation.pushRotated(90);
+ 
+    }
+
 }
 
 void drawAllForecast() {
@@ -221,9 +239,10 @@ void drawAllForecast() {
         for (int i=1; i<5; i++) {
             drawForecast(parseExtendedForecastResp(forecastResp, i), (TFT_W/4) * (i-1), (TFT_H/2)-22);
         }
-        drawLocation(parseLocation(locationResp), 315, (TFT_H/2)-25);
     } else {
         drawTodaysForecast(parsed, 50, 350);
-        // drawLocation(parseLocation(locationResp), 0, 125);
+        drawLocation(parseLocation(locationResp), 0, 125);
     }
+
+    drawLocation(parseLocation(locationResp), 315, (TFT_H/2)-25);
 }
