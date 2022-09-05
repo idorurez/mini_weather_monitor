@@ -6,6 +6,8 @@ After using a really crappy indoor temp and humidity monitor, I wanted to build 
 ## Hardware
 * esp32 (devkit v1)
 * bme280
+* bh1750
+* tilt sensor
 * 4" tft spi 480x320 v1.0 LCD
 
 ## What's in this
@@ -19,9 +21,3 @@ After using a really crappy indoor temp and humidity monitor, I wanted to build 
 * Current repo currently uses platform io to develop and manage and deploy
 * If you want to use SPIFFS, upload the stuff in /data using platform io
 * Othewrise, if you want to use the sdcard, you'll need to change a few lines of code to source from that instead and to be sure to move everything from /data onto the sdcard
-
-
-## TODO
-* check if my sdcard is actually working on the extra lcds i picked up
-* parse and display 3 day forecast using the jpgs i crammed into SPIFFS
-* test and provide a pcbway buildout so you can order the board yourself
