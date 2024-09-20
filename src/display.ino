@@ -32,54 +32,33 @@ void printLocalTime(int x, int y){
   if (oriented == PORTRAIT) {
     sprTime.loadFont(AA_FONT_65);
     
-    sprTime.setColorDepth(1);       // just black and white mam
+    sprTime.setColorDepth(8);       // just black and white mam
     sprTime.fillSprite(TFT_BLACK); // Fill the Sprite with black
-    sprTime.createSprite(320, 175);  // 160 x 100 sprite
+    sprTime.createSprite(300, 160);  // 160 x 100 sprite
+    sprTime.setTextColor(TFT_ORANGE);
     sprTime.loadFont(AA_FONT_65);
     sprTime.setCursor(5, 0);
     sprTime.println(&timeinfo, "%H:%M:%S"); // print time
+    sprTime.setTextColor(TFT_WHITE);
     sprTime.setCursor(5, 58);
     sprTime.loadFont(AA_FONT_55);
     sprTime.println(&timeinfo, "%A");   // day of the week
-    sprTime.setCursor(5, 108);
+    sprTime.setCursor(5, 115);
+    sprTime.loadFont(AA_FONT_45);
     sprTime.println(&timeinfo, "%B %d"); // month and date
     sprTime.pushSprite(x, y);
+    sprTime.deleteSprite();
   }
-    // Serial.print("Day of week: ");
-  // Serial.println(&timeinfo, "%A");
-  // Serial.print("Month: ");
-  // Serial.println(&timeinfo, "%B");
-  // Serial.print("Day of Month: ");
-  // Serial.println(&timeinfo, "%d");
-  // Serial.print("Year: ");
-  // Serial.println(&timeinfo, "%Y");
-  // Serial.print("Hour: ");
-  // Serial.println(&timeinfo, "%H");
-  // Serial.print("Hour (12 hour format): ");
-  // Serial.println(&timeinfo, "%I");
-  // Serial.print("Minute: ");
-  // Serial.println(&timeinfo, "%M");
-  // Serial.print("Second: ");
-  // Serial.println(&timeinfo, "%S");
-  // Serial.println("Time variables");
-  // char timeHour[3];
-  // strftime(timeHour,3, "%H", &timeinfo);
-  // Serial.println(timeHour);
-  // char timeWeekDay[10];
-  // strftime(timeWeekDay,10, "%A", &timeinfo);
-  // Serial.println(timeWeekDay);
-  // Serial.println();
 }
 
 void displayIndoorConditions(float te, float pe, float he) {
 
     float tempF = ((te * 9/5) + 32)  + BME280_TEMP_ADJUST;
 
-
     if (oriented == LANDSCAPE) {
 
         tft.fillRect(0, 0, TFT_W/2, (TFT_H/2) - 20, TFT_BLACK);
-        tft.setTextColor(TFT_WHITE, TFT_BLACK);
+        tft.setTextColor(TFT_WHITE);
         
         tft.setCursor(0,0);
         tft.loadFont(AA_FONT_100, SD);
@@ -94,7 +73,7 @@ void displayIndoorConditions(float te, float pe, float he) {
     } else {
 
         tft.fillRect(0, 0, TFT_W, 175, TFT_BLACK);
-        tft.setTextColor(TFT_WHITE, TFT_BLACK);
+        tft.setTextColor(TFT_WHITE);
         
         tft.setCursor(5,0);
         tft.loadFont(AA_FONT_115, SD);
@@ -118,7 +97,7 @@ void drawPressure(float pressure) {
 
         tft.setPivot(225, 0);     // pivot set on edge
         // Create the Sprite
-        spr.setColorDepth(1);       // just black and white mam
+        spr.setColorDepth(16);       // just black and white mam
         spr.createSprite(160, 28);  // 160 x 100 sprite
         spr.setPivot(0, 28);      // bottom left corner of sprite as pivot
         spr.fillSprite(TFT_BLACK); // Fill the Sprite with black
@@ -127,10 +106,10 @@ void drawPressure(float pressure) {
         spr.drawString(String(pe) + " hPA", 0, 0); // test font  
         spr.pushRotated(90);
     } else {
-        
+        spr.setTextColor(TFT_SKYBLUE, TFT_BLACK);
         tft.setPivot(280, 0);     // pivot set on edge
         // Create the Sprite
-        spr.setColorDepth(1);       // just black and white mam
+        spr.setColorDepth(16);       // just black and white mam
         spr.createSprite(180, 28);  // 160 x 100 sprite
         spr.setPivot(0, 28);      // bottom left corner of sprite as pivot
         spr.fillSprite(TFT_BLACK); // Fill the Sprite with black
@@ -211,7 +190,7 @@ void drawLocation(LocationParsed location, int x, int y) {
         x = 315;
         y = (TFT_H / 2) - 25;
         
-        tft.loadFont(AA_FONT_15, SD);
+        tft.loadFont(AA_FONT_14);
         tft.setTextDatum(MC_DATUM);
         tft.drawString(String(location.city) + "," + String(location.state), x, y);
     } else {
@@ -221,12 +200,11 @@ void drawLocation(LocationParsed location, int x, int y) {
         sprLocation.createSprite(180, 28);  // 160 x 100 sprite
         sprLocation.setPivot(0, 28);      // bottom left corner of sprite as pivot
         sprLocation.fillSprite(TFT_BLACK); // Fill the Sprite with black
-        sprLocation.loadFont(AA_FONT_15, SD);
+        sprLocation.loadFont(AA_FONT_14);
         sprLocation.drawString(String(location.city) + ", " + String(location.state), 0, 0);
         sprLocation.pushRotated(90);
- 
     }
-
+    sprLocation.unloadFont();
 }
 
 void drawAllForecast() {
@@ -244,5 +222,5 @@ void drawAllForecast() {
         drawLocation(parseLocation(locationResp), 0, 125);
     }
 
-    drawLocation(parseLocation(locationResp), 315, (TFT_H/2)-25);
+    // drawLocation(parseLocation(locationResp), 315, (TFT_H/2)-25);
 }

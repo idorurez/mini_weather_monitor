@@ -8,8 +8,8 @@
  * */
 // #include <XPT2046_Touchscreen.h> //https://github.com/PaulStoffregen/XPT2046_Touchscreen
 #include <TFT_eSPI.h> // https://github.com/Bodmer/TFT_eSPI
-#include <SPI.h>  //https://github.com/espressif/arduino-esp32/tree/master/libraries/SPI
-#include <SD.h>
+#include "SPI.h"  //https://github.com/espressif/arduino-esp32/tree/master/libraries/SPI
+#include "SD.h"
 #include <SoftwareSerial.h>
 #include "time.h"
 #include <esp_task_wdt.h>
@@ -118,11 +118,12 @@ void setup(void) {
 
   Serial.begin(115200);
   
-  pinMode(tilt_pin, INPUT);
+  // pinMode(tilt_pin, INPUT);
 
   digitalWrite(TFT_CS, HIGH);
   digitalWrite(TFT_BL, HIGH);
   digitalWrite(SD_PIN, HIGH);  
+
 
   tft.begin();
   Wire.begin(); // sda, scl, clock speed 
@@ -136,12 +137,7 @@ void setup(void) {
 
    //========== Initialize SPIFFS and SDCARD
 
-  // if (!SPIFFS.begin()) {
-  //   Serial.println("SPIFFS initialisation failed!");
-  //   while (1) yield(); // Stay here twiddling thumbs waiting
-  // }
-
- if (!SD.begin()) {
+ if (!SD.begin(SD_PIN)) {
     Serial.println("Card Mount Failed");
     ESP.restart();
   }
