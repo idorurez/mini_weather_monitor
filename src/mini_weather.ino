@@ -10,7 +10,6 @@
 #include <TFT_eSPI.h> // https://github.com/Bodmer/TFT_eSPI
 #include "SPI.h"  //https://github.com/espressif/arduino-esp32/tree/master/libraries/SPI
 #include "SD.h"
-#include <SoftwareSerial.h>
 #include "time.h"
 #include <esp_task_wdt.h>
 
@@ -21,7 +20,6 @@
 #include <JPEGDecoder.h>
 #include <Wifi.h>
 #include <secrets.h>
-#include <TinyGPSPlus.h>
 #include <SPIFFS.h>
 
 // timeout after 60 seconds
@@ -44,10 +42,10 @@ Adafruit_Sensor *bme_pressure;
 Adafruit_Sensor *bme_humidity;
 
 unsigned long bmeUpdateDelay = 60 * 1000; // 60 seconds for bme update
-unsigned long weather5dayDelay = 30 * 60 * 1000; // 30 minutes
+unsigned long weatherUpdateDelay = 30 * 60 * 1000; // 30 minutes
 
 unsigned long bmeUpdateTime = 0;
-unsigned long weather5dayUpdateTime = 0;
+unsigned long weatherUpdateTime = 0;
 unsigned long currTime;
 bool triggerUpdate = false;
 String forecastResp, locationResp;
@@ -56,11 +54,11 @@ String forecastResp, locationResp;
 BH1750 lightMeter(0x23);
 
 TFT_eSPI tft = TFT_eSPI();
-TFT_eSprite spr = TFT_eSprite(&tft); // Sprite object
-TFT_eSprite sprTime = TFT_eSprite(&tft);
-TFT_eSprite sprForecastBlock = TFT_eSprite(&tft);
-TFT_eSprite sprTodaysForecastBlock = TFT_eSprite(&tft);
-TFT_eSprite sprLocation = TFT_eSprite(&tft);
+TFT_eSprite spr_pressure = TFT_eSprite(&tft); // Sprite object
+TFT_eSprite spr_time = TFT_eSprite(&tft);
+// TFT_eSprite sprForecastBlock = TFT_eSprite(&tft);
+// TFT_eSprite sprTodaysForecastBlock = TFT_eSprite(&tft);
+TFT_eSprite spr_location = TFT_eSprite(&tft);
 
 sensors_event_t temp_event, pressure_event, humidity_event;
 
@@ -107,14 +105,14 @@ enum Orientation oriented = PORTRAIT;
 String latitude = "37.4959";
 String longitude = "-122.2764";
 
-int TFT_W = 480;
-int TFT_H = 320;
+int TFT_W = 320;
+int TFT_H = 480;
 
 int tilt_pin = 2;
 
 void setup(void) {
-  esp_task_wdt_init(WDT_TIMEOUT, true); //enable panic so ESP32 restarts
-  esp_task_wdt_add(NULL); //add current thread to WDT watch
+  // esp_task_wdt_init(WDT_TIMEOUT, true); //enable panic so ESP32 restarts
+  // esp_task_wdt_add(NULL); //add current thread to WDT watch
 
   Serial.begin(115200);
   
@@ -124,8 +122,6 @@ void setup(void) {
   digitalWrite(TFT_BL, HIGH);
   digitalWrite(SD_PIN, HIGH);  
 
-
-  tft.begin();
   Wire.begin(); // sda, scl, clock speed 
 
   // ==== LCD dimming
@@ -145,7 +141,7 @@ void setup(void) {
 
   if (cardType == CARD_NONE) {
     Serial.println("No SD card attached");
-    // return;
+    return;
   }
 
   Serial.print("SD Card Type: ");
@@ -163,13 +159,11 @@ void setup(void) {
   Serial.printf("SD Card Size: %lluMB\n", cardSize);
   Serial.println("initialisation done.");  
 
-  File root = SD.open("/");
+//   File root = SD.open("/");
   // printDirectory(root, 0);
 
 
   // ========== Initialize display and set orientation
-  tft.invertDisplay(0);
-  setOrientation();
 
   //========== Initialize BME
 
@@ -210,26 +204,29 @@ void setup(void) {
     ESP.restart();
   }
 
+  tft.begin();
+  tft.init();
+  tft.invertDisplay(0);
+  tft.setRotation(oriented);
+
   //========== Get and display initial readings for weather
   tft.fillScreen(TFT_BLACK);
-  tft.setTextColor(TFT_WHITE, TFT_BLACK);
 
   wifiConnect();
-  forecastResp = getForecast(FIVEDAY); 
+  forecastResp = getForecast(FIVEDAY);
   locationResp = getLocation();
 
-  drawAllForecast();
-  // sampleIndoorAtmo();
+  drawForecast();
   displayIndoorConditions(bme.readTemperature(), bme.readPressure(), bme.readHumidity());
-  weather5dayUpdateTime = currTime;
+  drawLocation(parseLocation(locationResp), 0, 125);
 
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 }
 
 void loop() { 
-  esp_task_wdt_reset();
+
+  // esp_task_wdt_reset();
   bme.takeForcedMeasurement();
-  setOrientation();
 
   // === check light meter stuff and set display intensity
   if (lightMeter.measurementReady()) {
@@ -242,59 +239,23 @@ void loop() {
   // === check if we are scheduled to update indoor temps
   currTime = millis();
 
-  if (triggerUpdate) {
-    // clear the screen if we've triggered an update based on orientation
-     tft.fillRect(0, 0, TFT_W, TFT_H, TFT_BLACK);
-  }
   // Serial.printf("currTime is %d\n", currTime);
-  if (((currTime - bmeUpdateTime) > bmeUpdateDelay) || triggerUpdate ) {
-    // Serial.printf("UPDATING AT %d\n", currTime);
-    // sampleIndoorAtmo();
+  if ((currTime - bmeUpdateTime) > bmeUpdateDelay) {
     displayIndoorConditions(bme.readTemperature(), bme.readPressure(), bme.readHumidity());
     bmeUpdateTime = currTime;
   }
 
-  // === check if we are scheduled to update weather info
-  if ((currTime - weather5dayUpdateTime > weather5dayDelay) || triggerUpdate) {
+  if ((currTime - weatherUpdateTime) > weatherUpdateDelay) {
     
-    if (!triggerUpdate) {
-      // only connect to wifi if we're not flippin' around
-      wifiConnect();
-      forecastResp = getForecast(FIVEDAY); 
-      locationResp = getLocation();
-    }
+    wifiConnect();
+    forecastResp = getForecast(FIVEDAY);
+    locationResp = getLocation();
 
-    weather5dayUpdateTime = currTime;
-    drawAllForecast();
-    drawPressure(bme.readPressure());
+    drawForecast();
+    drawLocation(parseLocation(locationResp), 0, 125);
+    weatherUpdateTime = currTime;
   }
-  
+
   printLocalTime(0, 175);
 
-  if (triggerUpdate) {
-    triggerUpdate = false;
-  }
-}
-
-void setOrientation() {
-  int curr_state = digitalRead(tilt_pin);
-  if (curr_state == LOW) {
-    if (oriented == LANDSCAPE) {
-      triggerUpdate = true;
-    }
-    // Serial.println("orientation is PORTRAIT");
-    oriented = PORTRAIT;
-    
-    TFT_W = 320;
-    TFT_H = 480;
-  } else {
-    if (oriented == PORTRAIT) {
-      triggerUpdate = true;
-    }
-    // Serial.println("orientation is LANDSCAPE");
-    oriented = LANDSCAPE;
-     TFT_W = 480;
-    TFT_H = 320;
-  }
-  tft.setRotation(oriented);
 }

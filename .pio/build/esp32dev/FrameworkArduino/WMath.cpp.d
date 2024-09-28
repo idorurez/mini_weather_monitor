@@ -1,5 +1,6 @@
 .pio/build/esp32dev/FrameworkArduino/WMath.cpp.o: \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/cores/esp32/WMath.cpp \
+ src/User_Setup.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_system/include/esp_system.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_common/include/esp_err.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_common/include/esp_compiler.h \
