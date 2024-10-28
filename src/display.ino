@@ -109,11 +109,10 @@ void drawTodaysForecast(ForecastParsed forecast, int x, int y) {
     tft.drawString(String(forecast.windDirectionCardinal) + " " + String(forecast.windSpeed), x+textOffset, y+70);
     tft.drawString(String(forecast.precipChance) + "% " + String(forecast.qpf) + " in", x+textOffset, y+90);
     tft.drawString(String(forecast.wxPhraseShort), x+textOffset, y+110);
-
 }
 
-void drawLocation(LocationParsed location, int x, int y) {
-    tft.setPivot(TFT_W - 40, 370);     // pivot set on edge
+void drawLocation(LocationParsed location) {
+    tft.setPivot(TFT_W - 30, 370);     // pivot set on edge
     // Create the Sprite
     spr_location.setColorDepth(1);
     spr_location.createSprite(180, 28);
@@ -121,7 +120,7 @@ void drawLocation(LocationParsed location, int x, int y) {
     spr_location.fillSprite(TFT_BLACK);
     spr_location.loadFont(AA_FONT_14);
     spr_location.drawString(String(location.city) + ", " + String(location.state), 0, 0);
-    spr_location.pushRotated(0);
+    spr_location.pushRotated(90);
     spr_location.unloadFont();
     spr_location.deleteSprite();
 }

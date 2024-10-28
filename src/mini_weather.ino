@@ -214,11 +214,11 @@ void setup(void) {
 
   wifiConnect();
   forecastResp = getForecast(FIVEDAY);
-  locationResp = getLocation();
+  // locationResp = getLocation();
 
   drawForecast();
   displayIndoorConditions(bme.readTemperature(), bme.readPressure(), bme.readHumidity());
-  drawLocation(parseLocation(locationResp), 0, 125);
+  // drawLocation(parseLocation(locationResp));
 
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 }
@@ -249,10 +249,10 @@ void loop() {
     
     wifiConnect();
     forecastResp = getForecast(FIVEDAY);
-    locationResp = getLocation();
+    // locationResp = getLocation();
 
     drawForecast();
-    drawLocation(parseLocation(locationResp), 0, 125);
+    // drawLocation(parseLocation(locationResp));
     weatherUpdateTime = currTime;
   }
 
