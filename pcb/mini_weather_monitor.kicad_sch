@@ -8,6 +8,258 @@
 		(title "Amefuri Kozo")
 	)
 	(lib_symbols
+		(symbol "Adafruit USB Type C Downstream Breakout rev B-eagle-import:HEADER-1X8"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "JP"
+				(at -6.35 13.335 0)
+				(effects
+					(font
+						(size 1.778 1.5113)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Value" ""
+				(at -6.35 -12.7 0)
+				(effects
+					(font
+						(size 1.778 1.5113)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Footprint" "Adafruit USB Type C Downstream Breakout rev B:1X08_OVAL"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "PIN HEADER"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "HEADER-1X8_1_0"
+				(polyline
+					(pts
+						(xy -6.35 -10.16) (xy 1.27 -10.16)
+					)
+					(stroke
+						(width 0.4064)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -6.35 12.7) (xy -6.35 -10.16)
+					)
+					(stroke
+						(width 0.4064)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -10.16) (xy 1.27 12.7)
+					)
+					(stroke
+						(width 0.4064)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 12.7) (xy -6.35 12.7)
+					)
+					(stroke
+						(width 0.4064)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive inverted
+					(at -2.54 10.16 0)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive inverted
+					(at -2.54 7.62 0)
+					(length 2.54)
+					(name "2"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive inverted
+					(at -2.54 5.08 0)
+					(length 2.54)
+					(name "3"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive inverted
+					(at -2.54 2.54 0)
+					(length 2.54)
+					(name "4"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive inverted
+					(at -2.54 0 0)
+					(length 2.54)
+					(name "5"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive inverted
+					(at -2.54 -2.54 0)
+					(length 2.54)
+					(name "6"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive inverted
+					(at -2.54 -5.08 0)
+					(length 2.54)
+					(name "7"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive inverted
+					(at -2.54 -7.62 0)
+					(length 2.54)
+					(name "8"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "Mechanical:MountingHole"
 			(pin_names
 				(offset 1.016)
@@ -2125,6 +2377,18 @@
 		(uuid "69cbf986-4951-4997-a7bc-7d157f337f00")
 	)
 	(junction
+		(at 54.61 82.55)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "847e5ce6-7f44-4162-9776-56dce65b66d0")
+	)
+	(junction
+		(at 58.42 80.01)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c873ef42-f564-434b-98cb-a4f526654a3c")
+	)
+	(junction
 		(at 54.61 80.01)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2402,6 +2666,16 @@
 	)
 	(wire
 		(pts
+			(xy 58.42 80.01) (xy 80.01 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5596b4e8-2a82-4d11-8a7f-c0250cf4394c")
+	)
+	(wire
+		(pts
 			(xy 184.785 104.14) (xy 121.92 104.14)
 		)
 		(stroke
@@ -2579,6 +2853,16 @@
 			(type default)
 		)
 		(uuid "9be2511d-ade2-4226-92b7-3aaaf18f4666")
+	)
+	(wire
+		(pts
+			(xy 71.12 77.47) (xy 80.01 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a3cbc4a0-d236-42ec-939a-c205de2c3237")
 	)
 	(wire
 		(pts
@@ -2762,6 +3046,16 @@
 	)
 	(wire
 		(pts
+			(xy 58.42 80.01) (xy 58.42 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "db1ca698-91fb-4f43-80e6-2f4fe5bc1d75")
+	)
+	(wire
+		(pts
 			(xy 205.105 73.025) (xy 182.88 73.025)
 		)
 		(stroke
@@ -2842,6 +3136,16 @@
 	)
 	(wire
 		(pts
+			(xy 54.61 82.55) (xy 58.42 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ebef8910-c5af-40b0-b261-811dbf1483e1")
+	)
+	(wire
+		(pts
 			(xy 156.21 46.355) (xy 158.75 46.355)
 		)
 		(stroke
@@ -2889,6 +3193,16 @@
 			(type default)
 		)
 		(uuid "fced33fc-c253-4bc7-bf72-7ac84953f6b5")
+	)
+	(wire
+		(pts
+			(xy 54.61 80.01) (xy 58.42 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ff1ab14d-83da-48d4-a31c-66bb1b9531e6")
 	)
 	(symbol
 		(lib_id "usini_sensors:module_bme280")
@@ -3543,6 +3857,71 @@
 			(project "mini_weather_monitor"
 				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
 					(reference "USB_C_Input1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 71.12 77.47 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "5dce7e92-f900-4bc7-9901-135111d84bce")
+		(property "Reference" "#PWR05"
+			(at 64.77 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 67.31 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 71.12 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 71.12 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 71.12 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8cb12668-07f6-4135-9413-cf9df91b29a8")
+		)
+		(instances
+			(project "mini_weather_monitor"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+					(reference "#PWR05")
 					(unit 1)
 				)
 			)
@@ -4330,6 +4709,94 @@
 			(project "mini_weather_monitor"
 				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
 					(reference "#PWR03")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Adafruit USB Type C Downstream Breakout rev B-eagle-import:HEADER-1X8")
+		(at 82.55 87.63 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d58d704e-1d9e-4602-b54e-7e17d5bb9f9d")
+		(property "Reference" "adafruit_type_c_downstream1"
+			(at 85.09 85.725 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "~"
+			(at 85.09 88.265 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "custom_usbc:Adafruit USB Type C Breakout rev B"
+			(at 82.55 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 82.55 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "PIN HEADER"
+			(at 82.55 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "5"
+			(uuid "235c94ab-1e1f-457b-8ea1-a7534151c971")
+		)
+		(pin "6"
+			(uuid "02c96c9c-ea56-4815-ad95-00ef0769ed5f")
+		)
+		(pin "7"
+			(uuid "647aeecb-0c8f-478b-9eeb-7340455d40f5")
+		)
+		(pin "1"
+			(uuid "0e8d34e8-f98c-476a-adeb-08d9b62f192e")
+		)
+		(pin "8"
+			(uuid "e4375bce-6abf-4109-8f8c-473d6c71d9d5")
+		)
+		(pin "2"
+			(uuid "b81fcbff-a8f0-48ab-b0ed-0216fe1173ec")
+		)
+		(pin "3"
+			(uuid "7ad5ec80-d660-4215-a4b3-22a2f83f8bc1")
+		)
+		(pin "4"
+			(uuid "67480372-dc75-4b6b-bf7f-38a5e042808d")
+		)
+		(instances
+			(project "mini_weather_monitor"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+					(reference "adafruit_type_c_downstream1")
 					(unit 1)
 				)
 			)
