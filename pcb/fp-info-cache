@@ -1,4 +1,179 @@
-23339753249416693
+23384755934893598
+Adafruit USB Type C Vertical Breakout
+1X08_ROUND_76
+
+
+0
+8
+8
+Adafruit USB Type C Vertical Breakout
+0603-NO
+
+
+0
+2
+2
+Adafruit USB Type C Vertical Breakout
+ADAFRUIT_3.5MM
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+FIDUCIAL_1MM
+
+
+0
+1
+1
+Adafruit USB Type C Vertical Breakout
+MOUNTINGHOLE_2.5_PLATED
+
+
+0
+1
+1
+Adafruit USB Type C Vertical Breakout
+PCBFEAT-REV-040
+Revision Level Field - 40 mil{return}{return}Set version with global board attribute '>REV'
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL0
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL1
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL2
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL3
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL4
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL5
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL6
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL7
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL8
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL9
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL10
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL11
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL12
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL13
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL14
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL15
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL16
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+PLABEL17
+
+
+0
+0
+0
+Adafruit USB Type C Vertical Breakout
+USB_C_VERTICAL
+
+
+0
+20
+20
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -95346,6 +95521,13 @@ Adafruit_USB_Type_C_Breakout_rev_B
 0
 10
 9
+custom_usbc
+Adafruit_USB_Type_C_Vertical_Breakout
+
+
+0
+20
+17
 custom_usbc
 USB_C_breakout_power_only
 
