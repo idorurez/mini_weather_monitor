@@ -139,7 +139,7 @@
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/libraries/SPI/src/SPI.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-spi.h \
  .pio/libdeps/esp32dev/TFT_eSPI/User_Setup_Select.h \
- .pio/libdeps/esp32dev/TFT_eSPI/TFT_Drivers/ILI9486_Defines.h \
+ .pio/libdeps/esp32dev/TFT_eSPI/TFT_Drivers/ST7796_Defines.h \
  .pio/libdeps/esp32dev/TFT_eSPI/Processors/TFT_eSPI_ESP32.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/soc/esp32/include/soc/spi_reg.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/driver/include/driver/spi_master.h \

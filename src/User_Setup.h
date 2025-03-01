@@ -11,7 +11,8 @@
 // Only define one driver, the other ones must be commented out
 
 
-#define ILI9486_DRIVER
+// #define ILI9486_DRIVER
+#define ST7796_DRIVER
 
 #define TFT_MISO 12
 #define TFT_MOSI 13

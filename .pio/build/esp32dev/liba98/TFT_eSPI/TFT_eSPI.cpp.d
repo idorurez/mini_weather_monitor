@@ -139,7 +139,7 @@
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/libraries/SPI/src/SPI.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-spi.h \
  .pio/libdeps/esp32dev/TFT_eSPI/User_Setup_Select.h \
- .pio/libdeps/esp32dev/TFT_eSPI/TFT_Drivers/ILI9486_Defines.h \
+ .pio/libdeps/esp32dev/TFT_eSPI/TFT_Drivers/ST7796_Defines.h \
  .pio/libdeps/esp32dev/TFT_eSPI/Processors/TFT_eSPI_ESP32.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/soc/esp32/include/soc/spi_reg.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/driver/include/driver/spi_master.h \
@@ -166,8 +166,8 @@
  .pio/libdeps/esp32dev/TFT_eSPI/Extensions/Button.h \
  .pio/libdeps/esp32dev/TFT_eSPI/Extensions/Sprite.h \
  .pio/libdeps/esp32dev/TFT_eSPI/Processors/TFT_eSPI_ESP32.c \
- .pio/libdeps/esp32dev/TFT_eSPI/TFT_Drivers/ILI9486_Init.h \
- .pio/libdeps/esp32dev/TFT_eSPI/TFT_Drivers/ILI9486_Rotation.h \
+ .pio/libdeps/esp32dev/TFT_eSPI/TFT_Drivers/ST7796_Init.h \
+ .pio/libdeps/esp32dev/TFT_eSPI/TFT_Drivers/ST7796_Rotation.h \
  .pio/libdeps/esp32dev/TFT_eSPI/Extensions/Button.cpp \
  .pio/libdeps/esp32dev/TFT_eSPI/Extensions/Sprite.cpp \
  .pio/libdeps/esp32dev/TFT_eSPI/Extensions/Smooth_font.cpp

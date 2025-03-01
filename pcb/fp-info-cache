@@ -1,4 +1,4 @@
-23384755934893598
+23393430448857881
 Adafruit USB Type C Vertical Breakout
 1X08_ROUND_76
 
@@ -95514,6 +95514,41 @@ Varistor VF
 0
 2
 2
+air_quality
+SDS011
+
+
+0
+0
+0
+boost_converter
+Pololu U3V70F5
+
+
+0
+15
+5
+boost_converter
+XL6009-Module
+
+
+0
+6
+6
+buck_converter
+DC-DC BUCK CONVERTER
+
+
+0
+8
+8
+buck_converter
+eBoot_Mini_MP1584EN_dcdc
+
+
+0
+8
+8
 custom_usbc
 Adafruit_USB_Type_C_Breakout_rev_B
 

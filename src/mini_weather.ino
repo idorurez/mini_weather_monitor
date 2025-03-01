@@ -8,7 +8,7 @@
  * */
 // #include <XPT2046_Touchscreen.h> //https://github.com/PaulStoffregen/XPT2046_Touchscreen
 #include <TFT_eSPI.h> // https://github.com/Bodmer/TFT_eSPI
-#include "SPI.h"  //https://github.com/espressif/arduino-esp32/tree/master/libraries/SPI
+#include <SPI.h>  //https://github.com/espressif/arduino-esp32/tree/master/libraries/SPI
 #include "SD.h"
 #include "time.h"
 #include <esp_task_wdt.h>
@@ -21,6 +21,9 @@
 #include <Wifi.h>
 #include <secrets.h>
 #include <SPIFFS.h>
+
+#define LED_BUILTIN   2  //Diagnostics using built-in LED
+
 
 // timeout after 60 seconds
 #define WDT_TIMEOUT 60
@@ -36,7 +39,7 @@ volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin h
 #define SEALEVELPRESSURE_HPA (1013.25)
 #define BME280_TEMP_ADJUST -2
 
-Adafruit_BME280 bme; // software SPI
+Adafruit_BME280 bme; // I2C
 Adafruit_Sensor *bme_temp;
 Adafruit_Sensor *bme_pressure;
 Adafruit_Sensor *bme_humidity;
@@ -108,22 +111,29 @@ String longitude = "-122.2764";
 int TFT_W = 320;
 int TFT_H = 480;
 
-int tilt_pin = 2;
-
 void setup(void) {
   // esp_task_wdt_init(WDT_TIMEOUT, true); //enable panic so ESP32 restarts
   // esp_task_wdt_add(NULL); //add current thread to WDT watch
 
   Serial.begin(115200);
-  
-  // pinMode(tilt_pin, INPUT);
 
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, LOW);
   digitalWrite(TFT_CS, HIGH);
   digitalWrite(TFT_BL, HIGH);
   digitalWrite(SD_PIN, HIGH);  
 
-  Wire.begin(); // sda, scl, clock speed 
+  tft.init();
+  tft.fillScreen(TFT_BLACK);
 
+  if (!SD.begin(SD_PIN)) {
+    Serial.println("Card Mount Failed");
+    BlinkLED(2);
+    }
+
+  Wire.end();
+  Wire.begin(); // sda, scl, clock speed 
+  Wire.setClock(100000);
   // ==== LCD dimming
   ledcAttachPin(TFT_BL, PWM1_CH);
   ledcSetup(PWM1_CH, PWM1_FREQ, PWM1_RES);
@@ -131,17 +141,11 @@ void setup(void) {
 
   currTime = millis();
 
-   //========== Initialize SPIFFS and SDCARD
-
- if (!SD.begin(SD_PIN)) {
-    Serial.println("Card Mount Failed");
-    ESP.restart();
-  }
   uint8_t cardType = SD.cardType();
 
   if (cardType == CARD_NONE) {
     Serial.println("No SD card attached");
-    return;
+ 
   }
 
   Serial.print("SD Card Type: ");
@@ -159,16 +163,16 @@ void setup(void) {
   Serial.printf("SD Card Size: %lluMB\n", cardSize);
   Serial.println("initialisation done.");  
 
-//   File root = SD.open("/");
-  // printDirectory(root, 0);
-
-
-  // ========== Initialize display and set orientation
-
-  //========== Initialize BME
+  if (lightMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE)) {
+    Serial.println(F("BH1750 working in CONTINUOUS HIGH RES MODE"));
+  } else {
+    Serial.println(F("Error initialising BH1750"));
+  }
 
   unsigned bme_status;
   bme_status = bme.begin(0x76);
+  
+  // BlinkLED(3);
 
   bme.setSampling(Adafruit_BME280::MODE_FORCED,
     Adafruit_BME280::SAMPLING_X1, // temperature
@@ -187,7 +191,6 @@ void setup(void) {
     Serial.print("   ID of 0x56-0x58 represents a BMP 280,\n");
     Serial.print("        ID of 0x60 represents a BME 280.\n");
     Serial.print("        ID of 0x61 represents a BME 680.\n");
-    ESP.restart();
   } else {
     bme_temp->printSensorDetails();
     bme_pressure->printSensorDetails();
@@ -196,35 +199,26 @@ void setup(void) {
 
   bme.takeForcedMeasurement();
 
-  if (lightMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE)) {
-    Serial.println(F("BH1750 Advanced begin"));
-  }
-  else {
-    Serial.println(F("Error initialising BH1750"));
-    ESP.restart();
-  }
-
   tft.begin();
-  tft.init();
   tft.invertDisplay(0);
   tft.setRotation(oriented);
-
-  //========== Get and display initial readings for weather
+  tft.setTextDatum(MC_DATUM);
   tft.fillScreen(TFT_BLACK);
+  tft.println("Loading...");
 
   wifiConnect();
   forecastResp = getForecast(FIVEDAY);
-  // locationResp = getLocation();
-
+  locationResp = getLocation();
   drawForecast();
   displayIndoorConditions(bme.readTemperature(), bme.readPressure(), bme.readHumidity());
-  // drawLocation(parseLocation(locationResp));
+  drawLocation(parseLocation(locationResp));
 
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+
 }
 
 void loop() { 
-
+  
   // esp_task_wdt_reset();
   bme.takeForcedMeasurement();
 
@@ -236,11 +230,11 @@ void loop() {
     ledcWrite(PWM1_CH, PWM1_DutyCycle);
   }
 
+
   // === check if we are scheduled to update indoor temps
   currTime = millis();
 
-  // Serial.printf("currTime is %d\n", currTime);
-  if ((currTime - bmeUpdateTime) > bmeUpdateDelay) {
+    if ((currTime - bmeUpdateTime) > bmeUpdateDelay) {
     displayIndoorConditions(bme.readTemperature(), bme.readPressure(), bme.readHumidity());
     bmeUpdateTime = currTime;
   }
@@ -249,13 +243,31 @@ void loop() {
     
     wifiConnect();
     forecastResp = getForecast(FIVEDAY);
-    // locationResp = getLocation();
 
     drawForecast();
-    // drawLocation(parseLocation(locationResp));
     weatherUpdateTime = currTime;
   }
 
   printLocalTime(0, 175);
 
+}
+
+void BlinkLED(int num)
+{
+  int x;
+  //if reason code =0, then set num =1 (just so I can see something)
+  if (!num)
+  {
+    num = 1;
+  }
+  for (x = 0; x < num; x++)
+  {
+    //LED ON
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(200);
+    //LED OFF
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(100);
+  }
+  delay(1000);
 }
