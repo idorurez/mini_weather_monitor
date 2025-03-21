@@ -1,14 +1,11 @@
 void wifiConnect(void)
 {
-  File logFile = SD.open("/debug.txt", FILE_APPEND);
   unsigned long startAttemptTime = millis();
   Serial.println("Connecting to " + String(ssid));
-  // logFile.println("Connecting to " + String(ssid));
   WiFi.onEvent(WiFiEvent);
   BlinkLED(6);
   WiFi.begin(ssid, pass);
   Serial.println("Began wifi connection attempt");
-  // logFile.println("beginning wifi connect");
   BlinkLED(7);
   // while ( WiFi.status() != WL_CONNECTED && millis() - startAttemptTime < 100000) {
   while ( WiFi.status() != WL_CONNECTED ) {
@@ -16,7 +13,6 @@ void wifiConnect(void)
     logFile.print('.');
     delay(1000);
   } 
-  // logFile.close();
 }
 
 

@@ -230,7 +230,6 @@ void loop() {
     ledcWrite(PWM1_CH, PWM1_DutyCycle);
   }
 
-
   // === check if we are scheduled to update indoor temps
   currTime = millis();
 
@@ -240,11 +239,10 @@ void loop() {
   }
 
   if ((currTime - weatherUpdateTime) > weatherUpdateDelay) {
-    
     wifiConnect();
     forecastResp = getForecast(FIVEDAY);
-
     drawForecast();
+    drawLocation(parseLocation(locationResp));
     weatherUpdateTime = currTime;
   }
 

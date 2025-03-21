@@ -1,4 +1,4 @@
-23393430448857881
+23395173068522880
 Adafruit USB Type C Vertical Breakout
 1X08_ROUND_76
 
@@ -95526,7 +95526,7 @@ Pololu U3V70F5
 
 
 0
-15
+13
 5
 boost_converter
 XL6009-Module
@@ -95570,6 +95570,13 @@ USB_C_breakout_power_only
 0
 2
 2
+mini_weather_monitor
+zicheng_mini_sd_card_reader
+
+
+0
+6
+6
 regulator_voltage
 S09_HVN
 
