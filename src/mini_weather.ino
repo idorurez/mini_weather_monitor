@@ -14,16 +14,15 @@
 #include <esp_task_wdt.h>
 
 #include <Wire.h>
+#include <ArduinoJson.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
 #include <BH1750.h>
 #include <JPEGDecoder.h>
 #include <Wifi.h>
-#include <secrets.h>
 #include <SPIFFS.h>
 
 #define LED_BUILTIN   2  //Diagnostics using built-in LED
-
 
 // timeout after 60 seconds
 #define WDT_TIMEOUT 60
@@ -59,8 +58,6 @@ BH1750 lightMeter(0x23);
 TFT_eSPI tft = TFT_eSPI();
 TFT_eSprite spr_pressure = TFT_eSprite(&tft); // Sprite object
 TFT_eSprite spr_time = TFT_eSprite(&tft);
-// TFT_eSprite sprForecastBlock = TFT_eSprite(&tft);
-// TFT_eSprite sprTodaysForecastBlock = TFT_eSprite(&tft);
 TFT_eSprite spr_location = TFT_eSprite(&tft);
 
 sensors_event_t temp_event, pressure_event, humidity_event;
@@ -70,6 +67,16 @@ sensors_event_t temp_event, pressure_event, humidity_event;
 const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = -28800;
 const int   daylightOffset_sec = 3600;
+
+// actual definitions
+const char* wu_api_key = nullptr;
+const char* zip = nullptr;
+const char* latitude = nullptr;
+const char* longitude = nullptr;
+const char* hostname = nullptr;
+const char* ssid = nullptr;
+const char* pass = nullptr;
+const char* station_id = nullptr;
 
 struct ForecastParsed {
   const char* dayOfWeek;
@@ -87,11 +94,13 @@ struct ForecastParsed {
 
 ForecastParsed parsed;
 
-struct LocationParsed {
+struct Location {
   const char* neighborhood;
   const char* city;
   const char* state;
 };
+
+Location location;
 
 enum ForecastReq {
   FIVEDAY,
@@ -105,9 +114,6 @@ enum Orientation {
 
 enum Orientation oriented = PORTRAIT;
 
-String latitude = "37.4959";
-String longitude = "-122.2764";
-
 int TFT_W = 320;
 int TFT_H = 480;
 
@@ -116,6 +122,7 @@ void setup(void) {
   // esp_task_wdt_add(NULL); //add current thread to WDT watch
 
   Serial.begin(115200);
+  BlinkLED(1);
 
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW);
@@ -162,6 +169,7 @@ void setup(void) {
   uint64_t cardSize = SD.cardSize() / (1024 * 1024);
   Serial.printf("SD Card Size: %lluMB\n", cardSize);
   Serial.println("initialisation done.");  
+  GetSetConfig();
 
   if (lightMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE)) {
     Serial.println(F("BH1750 working in CONTINUOUS HIGH RES MODE"));
@@ -203,22 +211,24 @@ void setup(void) {
   tft.invertDisplay(0);
   tft.setRotation(oriented);
   tft.setTextDatum(MC_DATUM);
+  tft.setTextColor(TFT_WHITE);
   tft.fillScreen(TFT_BLACK);
   tft.println("Loading...");
-
+  BlinkLED(3);
   wifiConnect();
   forecastResp = getForecast(FIVEDAY);
   locationResp = getLocation();
+  
   drawForecast();
   displayIndoorConditions(bme.readTemperature(), bme.readPressure(), bme.readHumidity());
-  drawLocation(parseLocation(locationResp));
-
+  drawLocation();
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+  BlinkLED(4);
 
 }
 
 void loop() { 
-  
+
   // esp_task_wdt_reset();
   bme.takeForcedMeasurement();
 
@@ -233,7 +243,7 @@ void loop() {
   // === check if we are scheduled to update indoor temps
   currTime = millis();
 
-    if ((currTime - bmeUpdateTime) > bmeUpdateDelay) {
+  if ((currTime - bmeUpdateTime) > bmeUpdateDelay) {
     displayIndoorConditions(bme.readTemperature(), bme.readPressure(), bme.readHumidity());
     bmeUpdateTime = currTime;
   }
@@ -242,12 +252,53 @@ void loop() {
     wifiConnect();
     forecastResp = getForecast(FIVEDAY);
     drawForecast();
-    drawLocation(parseLocation(locationResp));
     weatherUpdateTime = currTime;
+    drawLocation();
   }
 
   printLocalTime(0, 175);
+  drawLocation();
+}
 
+void GetSetConfig() {
+  File configFile = SD.open("/weather.cfg", FILE_READ);
+  if (configFile) {
+    const size_t capacity = 4096;
+    DynamicJsonDocument doc(capacity);
+    DeserializationError error = deserializeJson(doc, configFile);
+    if (error) {
+      Serial.print(F("Failed to read file, using default configuration. Error: "));
+      Serial.println(error.f_str());
+    } else {
+       // Top level keys
+       if (wu_api_key) free((void*)wu_api_key);
+       wu_api_key = strdup(doc["wu_api_key"] | "");
+ 
+       if (zip) free((void*)zip);
+       zip = strdup(doc["zip"] | "");
+ 
+       if (station_id) free((void*)station_id);
+       station_id = strdup(doc["station_id"] | "");
+ 
+       if (hostname) free((void*)hostname);
+       hostname = strdup(doc["WIFI"]["hostname"] | "");
+ 
+       if (ssid) free((void*)ssid);
+       ssid = strdup(doc["WIFI"]["ssid"] | "");
+ 
+       if (pass) free((void*)pass);
+       pass = strdup(doc["WIFI"]["pass"] | "");
+ 
+       if (latitude) free((void*)latitude);
+       latitude = strdup(doc["LOCATION"]["latitude"] | "");
+ 
+       if (longitude) free((void*)longitude);
+       longitude = strdup(doc["LOCATION"]["longitude"] | ""); // <-- you had typo before
+     }
+     configFile.close();
+  } else {
+    Serial.println(F("Failed to open config file"));
+  }
 }
 
 void BlinkLED(int num)

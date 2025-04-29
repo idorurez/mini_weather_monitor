@@ -34,8 +34,8 @@ void printLocalTime(int x, int y){
     spr_time.loadFont(AA_FONT_65);
 
     spr_time.setColorDepth(8);       // just black and white mam
+    spr_time.createSprite(270, 160);  // 160 x 100 sprite
     spr_time.fillSprite(TFT_BLACK); // Fill the Sprite with black
-    spr_time.createSprite(300, 160);  // 160 x 100 sprite
     spr_time.setTextColor(TFT_ORANGE);
     spr_time.loadFont(AA_FONT_65);
     spr_time.setCursor(5, 0);
@@ -74,7 +74,7 @@ void drawPressure(float pressure) {
 
     float pe = pressure / 100.0;
     spr_pressure.setColorDepth(16);
-    // spr_pressure.fillSprite(TFT_TRANSPARENT);
+
     tft.setPivot(280, 0);     // pivot set on edge
 
     // Create the Sprite
@@ -111,14 +111,17 @@ void drawTodaysForecast(ForecastParsed forecast, int x, int y) {
     tft.drawString(String(forecast.wxPhraseShort), x+textOffset, y+110);
 }
 
-void drawLocation(LocationParsed location) {
-    tft.setPivot(TFT_W - 30, 370);     // pivot set on edge
+void drawLocation() {
+
+    tft.setPivot(280, 340);
     // Create the Sprite
-    spr_location.setColorDepth(1);
-    spr_location.createSprite(180, 28);
-    spr_location.setPivot(0, 28);      
+    spr_location.createSprite(120, 28);
+    spr_location.setColorDepth(16);
+    spr_location.setPivot(0, 28);
     spr_location.fillSprite(TFT_BLACK);
-    spr_location.loadFont(AA_FONT_14);
+    spr_location.setTextColor(TFT_WHITE);
+    spr_location.loadFont(AA_FONT_14, SD);
+    location = parseLocation(locationResp);
     spr_location.drawString(String(location.city) + ", " + String(location.state), 0, 0);
     spr_location.pushRotated(90);
     spr_location.unloadFont();

@@ -1,18 +1,33 @@
 void wifiConnect(void)
 {
-  unsigned long startAttemptTime = millis();
-  Serial.println("Connecting to " + String(ssid));
+  unsigned long timerDelay = 20000;
+  unsigned long lastTime = millis();
+  int retries = 0;
+  const int maxRetries = 10;
+  WiFi.setHostname(hostname);
   WiFi.onEvent(WiFiEvent);
-  BlinkLED(6);
+  WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, pass);
+  Serial.println("Connecting to " + String(ssid)); 
   Serial.println("Began wifi connection attempt");
-  BlinkLED(7);
-  // while ( WiFi.status() != WL_CONNECTED && millis() - startAttemptTime < 100000) {
-  while ( WiFi.status() != WL_CONNECTED ) {
+
+  while (WiFi.status() != WL_CONNECTED && retries < maxRetries) {
+    if ((millis() - lastTime) > timerDelay) {
+      retries++;
+      Serial.println("Retrying connection... Attempt " + String(retries));
+      WiFi.begin(ssid, pass);
+      lastTime = millis();
+    }
     Serial.print('.');
-    logFile.print('.');
     delay(1000);
-  } 
+  }
+
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("Connected");
+  } else {
+    Serial.println("Failed to connect after " + String(maxRetries) + " attempts");
+    ESP.restart();
+  }
 }
 
 
@@ -36,7 +51,6 @@ void WiFiEvent(WiFiEvent_t event) {
       break;
     case SYSTEM_EVENT_STA_DISCONNECTED:
       Serial.println("Disconnected from WiFi access point");
-//      WiFi.begin(ssid, password);
       break;
     case SYSTEM_EVENT_STA_AUTHMODE_CHANGE:
       Serial.println("Authentication mode of access point has changed");

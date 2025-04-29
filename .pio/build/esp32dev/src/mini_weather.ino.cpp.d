@@ -170,6 +170,140 @@
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_system/include/esp_task_wdt.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src/Wire.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal.h \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson.h \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Configuration.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Array/ArrayRef.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Array/ArrayFunctions.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Collection/CollectionData.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Namespace.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/preprocessor.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/version.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/assert.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Array/ArrayIterator.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Variant/SlotFunctions.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Variant/VariantData.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Memory/MemoryPool.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Memory/Alignment.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/mpl/max.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Strings/StringAdapters.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/conditional.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/enable_if.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/integral_constant.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/is_array.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/is_base_of.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/is_class.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/declval.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/is_const.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/is_convertible.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/is_enum.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/is_floating_point.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/is_same.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/remove_cv.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/is_integral.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/is_pointer.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/is_signed.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/is_unsigned.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/make_unsigned.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/type_identity.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/make_void.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/remove_const.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/type_traits/remove_reference.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Strings/Adapters/JsonString.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Strings/Adapters/RamString.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Strings/IsString.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Strings/String.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Misc/SafeBoolIdiom.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Strings/Adapters/StdString.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Strings/Adapters/ArduinoString.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Strings/Adapters/FlashString.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/pgmspace.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Variant/VariantSlot.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/integer.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/limits.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Variant/VariantContent.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Numbers/Float.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Numbers/Integer.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Misc/SerializedValue.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Numbers/convertNumber.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Variant/VariantRef.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Misc/Visitable.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Variant/Converter.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Variant/VariantFunctions.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/attributes.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Strings/StoragePolicy.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Variant/VariantOperators.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Numbers/arithmeticCompare.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Variant/VariantTag.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Variant/VariantShortcuts.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Array/ArrayShortcuts.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Object/ObjectShortcuts.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Object/ObjectRef.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Object/ObjectFunctions.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Object/ObjectIterator.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Object/Pair.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Document/DynamicJsonDocument.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Document/BasicJsonDocument.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Document/JsonDocument.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Array/ElementProxy.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Variant/VariantTo.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Object/MemberProxy.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Document/StaticJsonDocument.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Array/ArrayImpl.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Array/Utilities.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Collection/CollectionImpl.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Object/ObjectImpl.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Variant/ConverterImpl.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Json/JsonSerializer.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Json/TextFormatter.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Json/EscapeSequence.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Numbers/FloatParts.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Numbers/FloatTraits.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/alias_cast.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/math.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/static_array.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/pgmspace_generic.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Serialization/CountingDecorator.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Serialization/measure.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Serialization/Writers/DummyWriter.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Serialization/serialize.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Serialization/Writer.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Serialization/Writers/StaticStringWriter.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Serialization/Writers/StdStringWriter.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Serialization/Writers/ArduinoStringWriter.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Serialization/Writers/StdStreamWriter.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Serialization/Writers/PrintWriter.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Variant/Visitor.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Variant/VariantCompare.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Variant/VariantImpl.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Numbers/parseNumber.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Polyfills/ctype.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Json/JsonDeserializer.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Deserialization/deserialize.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Deserialization/DeserializationError.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Deserialization/Filter.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Deserialization/NestingLimit.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Deserialization/Reader.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Deserialization/Readers/IteratorReader.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Deserialization/Readers/RamReader.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Deserialization/Readers/VariantReader.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Deserialization/Readers/ArduinoStreamReader.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Deserialization/Readers/ArduinoStringReader.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Deserialization/Readers/FlashReader.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Deserialization/Readers/StdStreamReader.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/StringStorage/StringStorage.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/StringStorage/StringCopier.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/StringStorage/StringMover.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Json/Latch.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Json/Utf16.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Json/Utf8.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Json/PrettyJsonSerializer.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/MsgPack/MsgPackDeserializer.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/MsgPack/endianess.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/MsgPack/ieee754.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/MsgPack/MsgPackSerializer.hpp \
+ .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/compatibility.hpp \
  .pio/libdeps/esp32dev/Adafruit\ Unified\ Sensor/Adafruit_Sensor.h \
  .pio/libdeps/esp32dev/Adafruit\ BME280\ Library/Adafruit_BME280.h \
  .pio/libdeps/esp32dev/Adafruit\ BusIO/Adafruit_I2CDevice.h \
@@ -237,7 +371,6 @@
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiUdp.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/cores/esp32/Udp.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/cores/esp32/cbuf.h \
- src/secrets.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/libraries/HTTPClient/src/HTTPClient.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiClient.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src/WiFiClientSecure.h \
@@ -279,7 +412,4 @@
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/mbedtls/port/include/aes_alt.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/mbedtls/port/include/aes/esp_aes.h \
  C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/hal/include/hal/aes_types.h \
- C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/mbedtls/mbedtls/include/mbedtls/error.h \
- .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson.h \
- .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson.hpp \
- .pio/libdeps/esp32dev/ArduinoJson/src/ArduinoJson/Configuration.hpp
+ C:/Users/neuro/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/mbedtls/mbedtls/include/mbedtls/error.h

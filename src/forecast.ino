@@ -17,7 +17,6 @@ String httpGETRequest(const char url[]) {
   uint32_t timeout = millis();
   String payload = "{}"; 
 
-  // WiFiClient c;
   HTTPClient http;
 
   int resp = 0;
@@ -40,15 +39,13 @@ String httpGETRequest(const char url[]) {
 // mines = KCASANCA12
 // closest = KCASANCA59
 String getForecast(ForecastReq req) {
-  //https://api.weather.com/v3/wx/forecast/daily/5day?geocode=33.74,-84.39&format=json&units=e&language=en-US&apiKey=yourApiKey
-
   String reqUrl;
   switch (req) {
     case FIVEDAY:
-      reqUrl =  "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + latitude + "," + longitude + "&format=json&units=e&language=en-US&apiKey=af167648533f4fbd967648533fafbdd7";
+      reqUrl =  "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + String(latitude) + "," + String(longitude) + "&format=json&units=e&language=en-US&apiKey=" + String(wu_api_key);
       break;
     default:
-      reqUrl =  "https://api.weather.com/v2/pws/dailysummary/7day?stationId=KMAHANOV10&format=json&units=e&apiKey=af167648533f4fbd967648533fafbdd7";
+      reqUrl =  "https://api.weather.com/v2/pws/dailysummary/7day?stationId=" + String(station_id) + "&format=json&units=e&apiKey=" + String(wu_api_key);
       break;
   }
 
@@ -57,24 +54,21 @@ String getForecast(ForecastReq req) {
 }
 
 String getLocation() {
-   // https://api.weather.com/v3/location/point?geocode=33.74,-84.39&language=en-US&format=json&apiKey=yourApiKey
-    String reqUrl =  "https://api.weather.com/v3/location/point?geocode=" + latitude + "," + longitude + "&language=en-US&format=json&apiKey=af167648533f4fbd967648533fafbdd7";
+    String reqUrl =  "https://api.weather.com/v3/location/point?geocode=" + String(latitude) + "," + String(longitude) + "&language=en-US&format=json&apiKey=" + String(wu_api_key);
     const char *requestUrl = reqUrl.c_str();
     return httpGETRequest(requestUrl);
 }
 
-LocationParsed parseLocation(String json) {
-
-    const size_t capacity = 12288; // 12288;
+Location parseLocation(String json) {
+    const size_t capacity = 12288;
     DynamicJsonDocument doc(capacity);
-    // Parse JSON object
     DeserializationError error = deserializeJson(doc, json);
-    LocationParsed location;
+    Location location;
     if (error) {
       Serial.print(F("deserializeJson() failed: "));
       Serial.println(error.f_str());
     } else {
-      location.city = doc["location"]["displayName"];
+      location.city = doc["location"]["city"];
       location.state = doc["location"]["adminDistrictCode"];
       location.neighborhood = doc["location"]["neighborhood"];
     }
