@@ -42,10 +42,10 @@ String getForecast(ForecastReq req) {
   String reqUrl;
   switch (req) {
     case FIVEDAY:
-      reqUrl =  "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + String(latitude) + "," + String(longitude) + "&format=json&units=e&language=en-US&apiKey=" + String(wu_api_key);
+      reqUrl =  "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" + String(config.latitude) + "," + String(config.longitude) + "&format=json&units=e&language=en-US&apiKey=" + String(config.wu_api_key);
       break;
     default:
-      reqUrl =  "https://api.weather.com/v2/pws/dailysummary/7day?stationId=" + String(station_id) + "&format=json&units=e&apiKey=" + String(wu_api_key);
+      reqUrl =  "https://api.weather.com/v2/pws/dailysummary/7day?stationId=" + String(config.station_id) + "&format=json&units=e&apiKey=" + String(config.wu_api_key);
       break;
   }
 
@@ -54,7 +54,7 @@ String getForecast(ForecastReq req) {
 }
 
 String getLocation() {
-    String reqUrl =  "https://api.weather.com/v3/location/point?geocode=" + String(latitude) + "," + String(longitude) + "&language=en-US&format=json&apiKey=" + String(wu_api_key);
+    String reqUrl =  "https://api.weather.com/v3/location/point?geocode=" + String(config.latitude) + "," + String(config.longitude) + "&language=en-US&format=json&apiKey=" + String(config.wu_api_key);
     const char *requestUrl = reqUrl.c_str();
     return httpGETRequest(requestUrl);
 }

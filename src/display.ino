@@ -92,7 +92,6 @@ void drawPressure(float pressure) {
 void drawTodaysForecast(ForecastParsed forecast, int x, int y) {
 
     int offset = 0;
-   
     tft.fillRect(x, y, TFT_W, TFT_H, TFT_BLACK);
 
     String suffix = "_120x120";
@@ -103,12 +102,18 @@ void drawTodaysForecast(ForecastParsed forecast, int x, int y) {
 
     tft.loadFont(AA_FONT_15, SD);
     tft.setTextDatum(MC_DATUM);
-    tft.drawString(forecast.dayOfWeek, x+textOffset, y+10);
+    if (tft.textWidth(String(forecast.dayOfWeek)) > TFT_H) {
+        tft.loadFont(AA_FONT_14, SD);
+        tft.drawString(forecast.dayOfWeek, x+textOffset, y+10);
+        tft.loadFont(AA_FONT_15, SD);
+    }
+    
     tft.drawString(String(forecast.temperatureMin) + "°/" + String(forecast.temperatureMax) + "°", x+textOffset, y+30);
     tft.drawString("UV Index: " + String(forecast.uvIndex), x+textOffset, y+50);
     tft.drawString(String(forecast.windDirectionCardinal) + " " + String(forecast.windSpeed), x+textOffset, y+70);
     tft.drawString(String(forecast.precipChance) + "% " + String(forecast.qpf) + " in", x+textOffset, y+90);
     tft.drawString(String(forecast.wxPhraseShort), x+textOffset, y+110);
+    
 }
 
 void drawLocation() {

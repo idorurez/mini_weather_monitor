@@ -4,18 +4,18 @@ void wifiConnect(void)
   unsigned long lastTime = millis();
   int retries = 0;
   const int maxRetries = 10;
-  WiFi.setHostname(hostname);
+  WiFi.setHostname(config.hostname);
   WiFi.onEvent(WiFiEvent);
   WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, pass);
-  Serial.println("Connecting to " + String(ssid)); 
+  WiFi.begin(config.ssid, config.pass);
+  Serial.println("Connecting to " + String(config.ssid)); 
   Serial.println("Began wifi connection attempt");
 
   while (WiFi.status() != WL_CONNECTED && retries < maxRetries) {
     if ((millis() - lastTime) > timerDelay) {
       retries++;
       Serial.println("Retrying connection... Attempt " + String(retries));
-      WiFi.begin(ssid, pass);
+      WiFi.begin(config.ssid, config.pass);
       lastTime = millis();
     }
     Serial.print('.');

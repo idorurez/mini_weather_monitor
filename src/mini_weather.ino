@@ -68,15 +68,18 @@ const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = -28800;
 const int   daylightOffset_sec = 3600;
 
-// actual definitions
-const char* wu_api_key = nullptr;
-const char* zip = nullptr;
-const char* latitude = nullptr;
-const char* longitude = nullptr;
-const char* hostname = nullptr;
-const char* ssid = nullptr;
-const char* pass = nullptr;
-const char* station_id = nullptr;
+struct WeatherConfig  {
+  char wu_api_key[64];
+  char zip[10];
+  char station_id[32];
+  char hostname[64];
+  char ssid[64];
+  char pass[64];
+  char latitude[16];
+  char longitude[16];
+};
+
+WeatherConfig config; 
 
 struct ForecastParsed {
   const char* dayOfWeek;
@@ -270,30 +273,14 @@ void GetSetConfig() {
       Serial.print(F("Failed to read file, using default configuration. Error: "));
       Serial.println(error.f_str());
     } else {
-       // Top level keys
-       if (wu_api_key) free((void*)wu_api_key);
-       wu_api_key = strdup(doc["wu_api_key"] | "");
- 
-       if (zip) free((void*)zip);
-       zip = strdup(doc["zip"] | "");
- 
-       if (station_id) free((void*)station_id);
-       station_id = strdup(doc["station_id"] | "");
- 
-       if (hostname) free((void*)hostname);
-       hostname = strdup(doc["WIFI"]["hostname"] | "");
- 
-       if (ssid) free((void*)ssid);
-       ssid = strdup(doc["WIFI"]["ssid"] | "");
- 
-       if (pass) free((void*)pass);
-       pass = strdup(doc["WIFI"]["pass"] | "");
- 
-       if (latitude) free((void*)latitude);
-       latitude = strdup(doc["LOCATION"]["latitude"] | "");
- 
-       if (longitude) free((void*)longitude);
-       longitude = strdup(doc["LOCATION"]["longitude"] | ""); // <-- you had typo before
+      strlcpy(config.wu_api_key, doc["wu_api_key"] | "", sizeof(config.wu_api_key));
+      strlcpy(config.zip,        doc["zip"]        | "", sizeof(config.zip));
+      strlcpy(config.station_id, doc["station_id"] | "", sizeof(config.station_id));
+      strlcpy(config.hostname,   doc["WIFI"]["hostname"] | "", sizeof(config.hostname));
+      strlcpy(config.ssid,       doc["WIFI"]["ssid"]     | "", sizeof(config.ssid));
+      strlcpy(config.pass,       doc["WIFI"]["pass"]     | "", sizeof(config.pass));
+      strlcpy(config.latitude,   doc["LOCATION"]["latitude"] | "", sizeof(config.latitude));
+      strlcpy(config.longitude,  doc["LOCATION"]["longitude"] | "", sizeof(config.longitude));
      }
      configFile.close();
   } else {
