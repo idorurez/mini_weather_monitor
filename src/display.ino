@@ -1,3 +1,5 @@
+#define AA_FONT_10 "kozgoprobold10"
+#define AA_FONT_12 "kozgoprobold12"
 #define AA_FONT_14 "kozgoprobold14"
 #define AA_FONT_15 "kozgoprobold15"
 #define AA_FONT_26 "kozgoprobold26"
@@ -23,6 +25,7 @@
 #define AA_FONT_250 "kozgoprobold250"
 #define AA_FONT_300 "kozgoprobold300"
 
+
 void printLocalTime(int x, int y){
     struct tm timeinfo;
 
@@ -43,6 +46,17 @@ void printLocalTime(int x, int y){
     spr_time.setTextColor(TFT_WHITE);
     spr_time.setCursor(5, 58);
     spr_time.loadFont(AA_FONT_55);
+    
+
+    char buffer[20];
+    strftime(buffer, sizeof(buffer), "%A", &timeinfo);
+    String dayOfWeek = String(buffer);
+    int16_t w = tft.textWidth(dayOfWeek);
+    Serial.printf("WIDTH IS %d", w);
+    if (w >= 54) {
+        spr_time.loadFont(AA_FONT_50);
+    }
+
     spr_time.println(&timeinfo, "%A");   // day of the week
     spr_time.setCursor(5, 115);
     spr_time.loadFont(AA_FONT_45);
@@ -90,8 +104,8 @@ void drawPressure(float pressure) {
 }
 
 void drawTodaysForecast(ForecastParsed forecast, int x, int y) {
-
     int offset = 0;
+    tft.setTextWrap(false, false);
     tft.fillRect(x, y, TFT_W, TFT_H, TFT_BLACK);
 
     String suffix = "_120x120";
@@ -102,17 +116,13 @@ void drawTodaysForecast(ForecastParsed forecast, int x, int y) {
 
     tft.loadFont(AA_FONT_15, SD);
     tft.setTextDatum(MC_DATUM);
-    if (tft.textWidth(String(forecast.dayOfWeek)) > TFT_H) {
-        tft.loadFont(AA_FONT_14, SD);
-        tft.drawString(forecast.dayOfWeek, x+textOffset, y+10);
-        tft.loadFont(AA_FONT_15, SD);
-    }
-    
+    tft.drawString(forecast.dayOfWeek, x+textOffset, y+10);
     tft.drawString(String(forecast.temperatureMin) + "°/" + String(forecast.temperatureMax) + "°", x+textOffset, y+30);
     tft.drawString("UV Index: " + String(forecast.uvIndex), x+textOffset, y+50);
     tft.drawString(String(forecast.windDirectionCardinal) + " " + String(forecast.windSpeed), x+textOffset, y+70);
     tft.drawString(String(forecast.precipChance) + "% " + String(forecast.qpf) + " in", x+textOffset, y+90);
     tft.drawString(String(forecast.wxPhraseShort), x+textOffset, y+110);
+    tft.unloadFont();
     
 }
 

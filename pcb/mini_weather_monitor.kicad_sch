@@ -403,6 +403,151 @@
 				)
 			)
 		)
+		(symbol "Diode:1N5819"
+			(pin_numbers hide)
+			(pin_names
+				(offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "D"
+				(at 0 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "1N5819"
+				(at 0 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal"
+				(at 0 -4.445 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "http://www.vishay.com/docs/88525/1n5817.pdf"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "40V 1A Schottky Barrier Rectifier Diode, DO-41"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "diode Schottky"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "D*DO?41*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "1N5819_0_1"
+				(polyline
+					(pts
+						(xy 1.27 0) (xy -1.27 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 1.27) (xy 1.27 -1.27) (xy -1.27 0) (xy 1.27 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.905 0.635) (xy -1.905 1.27) (xy -1.27 1.27) (xy -1.27 -1.27) (xy -0.635 -1.27) (xy -0.635 -0.635)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "1N5819_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "Mechanical:MountingHole"
 			(pin_names
 				(offset 1.016)
@@ -3621,6 +3766,12 @@
 		(uuid "69cbf986-4951-4997-a7bc-7d157f337f00")
 	)
 	(junction
+		(at 27.94 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6fa6cee9-1921-46e8-9fde-5d53bd6bc52b")
+	)
+	(junction
 		(at 192.405 55.245)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3633,12 +3784,6 @@
 		(uuid "83621db5-27dd-47b9-9925-464f8e9fe46d")
 	)
 	(junction
-		(at 27.94 76.2)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "92e2255d-7a11-4c7b-8b8a-f7d3460055e4")
-	)
-	(junction
 		(at 253.365 91.44)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3649,6 +3794,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "95b6c1ad-1adb-472f-bcb5-aeedc34cf848")
+	)
+	(junction
+		(at 35.56 67.31)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b523c870-245a-42f1-a933-71d6fd582d57")
 	)
 	(junction
 		(at 100.33 117.475)
@@ -3667,12 +3818,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c47cd5d4-2563-4166-a9e7-61bbd7a3fcac")
-	)
-	(junction
-		(at 36.83 67.31)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "ccbade09-836d-434e-adb2-843a31ab4f50")
 	)
 	(junction
 		(at 196.85 55.245)
@@ -3766,7 +3911,7 @@
 	)
 	(wire
 		(pts
-			(xy 27.94 43.18) (xy 27.94 62.23)
+			(xy 27.94 43.18) (xy 27.94 58.42)
 		)
 		(stroke
 			(width 0)
@@ -3783,6 +3928,16 @@
 			(type default)
 		)
 		(uuid "0febabbf-76ac-4042-b124-e1b3a8547dbc")
+	)
+	(wire
+		(pts
+			(xy 35.56 58.42) (xy 35.56 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1301d31c-3419-44b0-9dd1-06b325ebe1cb")
 	)
 	(wire
 		(pts
@@ -3836,7 +3991,7 @@
 	)
 	(wire
 		(pts
-			(xy 27.94 72.39) (xy 27.94 76.2)
+			(xy 27.94 72.39) (xy 27.94 81.28)
 		)
 		(stroke
 			(width 0)
@@ -3936,16 +4091,6 @@
 	)
 	(wire
 		(pts
-			(xy 41.91 67.31) (xy 36.83 67.31)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2eb87ce8-3817-47a9-a2f3-1f6155af0831")
-	)
-	(wire
-		(pts
 			(xy 248.285 35.56) (xy 248.285 77.47)
 		)
 		(stroke
@@ -3976,7 +4121,7 @@
 	)
 	(wire
 		(pts
-			(xy 36.83 67.31) (xy 35.56 67.31)
+			(xy 35.56 67.31) (xy 40.64 67.31)
 		)
 		(stroke
 			(width 0)
@@ -4306,6 +4451,16 @@
 	)
 	(wire
 		(pts
+			(xy 27.94 58.42) (xy 27.94 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7b54f087-fd8a-4f01-a15e-82690dc64e77")
+	)
+	(wire
+		(pts
 			(xy 190.5 97.155) (xy 194.31 97.155)
 		)
 		(stroke
@@ -4586,16 +4741,6 @@
 	)
 	(wire
 		(pts
-			(xy 27.94 76.2) (xy 27.94 81.28)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cb7ebdb1-836c-4939-af6e-7643018a46eb")
-	)
-	(wire
-		(pts
 			(xy 205.105 60.325) (xy 179.07 60.325)
 		)
 		(stroke
@@ -4643,16 +4788,6 @@
 			(type default)
 		)
 		(uuid "d2aae435-15fc-4d19-a655-b13519460067")
-	)
-	(wire
-		(pts
-			(xy 36.83 76.2) (xy 27.94 76.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d2faea44-9442-4725-b447-5d44e7c56bc3")
 	)
 	(wire
 		(pts
@@ -4766,16 +4901,6 @@
 	)
 	(wire
 		(pts
-			(xy 36.83 74.93) (xy 36.83 76.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ec9f66b5-2cc9-498f-aaf9-50a4a039434e")
-	)
-	(wire
-		(pts
 			(xy 156.21 46.355) (xy 158.75 46.355)
 		)
 		(stroke
@@ -4813,6 +4938,16 @@
 			(type default)
 		)
 		(uuid "f105b135-08b8-44b8-bb71-a3c0c80488ac")
+	)
+	(wire
+		(pts
+			(xy 48.26 67.31) (xy 52.705 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f2524f67-0c8c-42f9-9376-f55639cd3545")
 	)
 	(wire
 		(pts
@@ -5828,7 +5963,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 41.91 67.31 90)
+		(at 52.705 67.31 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5836,7 +5971,7 @@
 		(dnp no)
 		(uuid "4aaa8f01-4e09-46f9-8326-9d86f5d57918")
 		(property "Reference" "#PWR015"
-			(at 48.26 67.31 0)
+			(at 59.055 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5845,7 +5980,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 45.72 67.31 0)
+			(at 56.515 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5853,7 +5988,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 41.91 67.31 0)
+			(at 52.705 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5862,7 +5997,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 41.91 67.31 0)
+			(at 52.705 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5871,7 +6006,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 41.91 67.31 0)
+			(at 52.705 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6092,7 +6227,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 36.83 71.12 0)
+		(at 44.45 67.31 270)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -6101,7 +6236,7 @@
 		(dnp no)
 		(uuid "5884a928-ed3c-4997-af96-3df1cd8dbb64")
 		(property "Reference" "R1"
-			(at 34.925 71.12 90)
+			(at 44.45 69.215 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6109,7 +6244,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 36.83 71.12 90)
+			(at 44.45 67.31 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6117,7 +6252,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_1206_3216Metric"
-			(at 35.052 71.12 90)
+			(at 44.45 69.088 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6126,7 +6261,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 36.83 71.12 0)
+			(at 44.45 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6135,7 +6270,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 36.83 71.12 0)
+			(at 44.45 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6490,6 +6625,74 @@
 			(project "mini_weather_monitor"
 				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
 					(reference "#PWR0101")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N5819")
+		(at 31.75 58.42 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "78523677-46c8-4d1d-9d32-9c334d87b6a6")
+		(property "Reference" "D1"
+			(at 31.4325 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1N5819"
+			(at 31.4325 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-123"
+			(at 31.75 62.865 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "http://www.vishay.com/docs/88525/1n5817.pdf"
+			(at 31.75 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "40V 1A Schottky Barrier Rectifier Diode, DO-41"
+			(at 31.75 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2b26544b-4eed-454d-a447-74da0060a073")
+		)
+		(pin "2"
+			(uuid "1c2afca0-73c3-4f2c-bb6f-8e573796272d")
+		)
+		(instances
+			(project "mini_weather_monitor"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+					(reference "D1")
 					(unit 1)
 				)
 			)
