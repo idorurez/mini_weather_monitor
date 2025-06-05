@@ -134,10 +134,10 @@ String fontType = ".otf";
 
 
 // Define the font size in points for the TFT_eSPI font file
-int  fontSize = 13;
+int  fontSize = 48;
 
 // Font size to use in the Processing sketch display window that pops up (can be different to above)
-int displayFontSize = 13;
+int displayFontSize = 48;
 
 // Create a C header (.h file) ready to be used or copied in your sketch folder
 boolean createHeaderFile = true;

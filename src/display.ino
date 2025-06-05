@@ -7,6 +7,7 @@
 #define AA_FONT_32 "kozgoprobold32"
 #define AA_FONT_35 "kozgoprobold35"
 #define AA_FONT_40 "kozgoprobold40"
+#define AA_FONT_48 "kozgoprobold48"
 #define AA_FONT_45 "kozgoprobold45"
 #define AA_FONT_50 "kozgoprobold50"
 #define AA_FONT_55 "kozgoprobold55"
@@ -52,11 +53,9 @@ void printLocalTime(int x, int y){
     strftime(buffer, sizeof(buffer), "%A", &timeinfo);
     String dayOfWeek = String(buffer);
     int16_t w = tft.textWidth(dayOfWeek);
-    Serial.printf("WIDTH IS %d", w);
-    if (w >= 54) {
-        spr_time.loadFont(AA_FONT_50);
+    if (w >= 485) { // Wednesday is the culprit
+        spr_time.loadFont(AA_FONT_48);
     }
-
     spr_time.println(&timeinfo, "%A");   // day of the week
     spr_time.setCursor(5, 115);
     spr_time.loadFont(AA_FONT_45);
