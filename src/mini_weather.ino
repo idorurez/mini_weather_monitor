@@ -95,7 +95,7 @@ struct ForecastParsed {
   int uvIndex;
 };
 
-ForecastParsed parsed;
+ForecastParsed today, tomorrow;
 
 struct Location {
   const char* neighborhood;

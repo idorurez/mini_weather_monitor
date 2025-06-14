@@ -91,7 +91,7 @@ void drawPressure(float pressure) {
     tft.setPivot(280, 0);     // pivot set on edge
 
     // Create the Sprite
-    spr_pressure.createSprite(180, 28);
+    spr_pressure.createSprite(180, 24);
     spr_pressure.setPivot(0, 28);      
     spr_pressure.fillSprite(TFT_BLACK);
     spr_pressure.setTextColor(TFT_SKYBLUE, TFT_BLACK);
@@ -102,17 +102,18 @@ void drawPressure(float pressure) {
     spr_pressure.deleteSprite();
 }
 
-void drawTodaysForecast(ForecastParsed forecast, int x, int y) {
+void drawForecast(ForecastParsed forecast, int x, int y, bool stats_only=false) {
     int offset = 0;
     tft.setTextWrap(false, false);
     tft.fillRect(x, y, TFT_W, TFT_H, TFT_BLACK);
 
-    String suffix = "_120x120";
-    int textOffset = 170;
-
-    String iconPath = "/" + String(forecast.iconCode) + suffix + ".jpg";
-    drawSdJpeg(iconPath.c_str(), x, y);
-
+    int textOffset = 0;
+    if (!stats_only) {
+        String suffix = "_120x120";
+        String iconPath = "/" + String(forecast.iconCode) + suffix + ".jpg";
+        drawSdJpeg(iconPath.c_str(), x, y);
+        textOffset = 170;
+    }
     tft.loadFont(AA_FONT_15, SD);
     tft.setTextDatum(MC_DATUM);
     tft.drawString(forecast.dayOfWeek, x+textOffset, y+10);
@@ -127,7 +128,7 @@ void drawTodaysForecast(ForecastParsed forecast, int x, int y) {
 
 void drawLocation() {
 
-    tft.setPivot(280, 340);
+    tft.setPivot(280, 180);
     // Create the Sprite
     spr_location.createSprite(120, 28);
     spr_location.setColorDepth(16);
@@ -143,6 +144,8 @@ void drawLocation() {
 }
 
 void drawForecast() {
-    parsed = parseCurrentForecastResp(forecastResp);
-    drawTodaysForecast(parsed, 50, 350);   
+    today = parseCurrentForecastResp(forecastResp, 0);
+    tomorrow = parseExtendedForecastResp(forecastResp, 1);
+    drawForecast(today, 0, 350);  
+    drawForecast(tomorrow, 260, 350, true);
 }

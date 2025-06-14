@@ -1106,6 +1106,167 @@
 				)
 			)
 		)
+		(symbol "boost_converter:pololu_S13V30F5"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U3"
+				(at 12.065 0.3839 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "S13v30F5"
+				(at 12.065 -1.5212 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "boost_converter:pololu S13V30F5 step up step down"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "pololu_S13V30F5_1_1"
+				(rectangle
+					(start -11.43 8.89)
+					(end 11.43 -11.43)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(text "S13V30F5"
+					(at 0 9.906 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(pin input line
+					(at -7.62 -13.97 90)
+					(length 2.54)
+					(name "EN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -3.81 -13.97 90)
+					(length 2.54)
+					(name "VIN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 0 -13.97 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 3.81 -13.97 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 7.62 -13.97 90)
+					(length 2.54)
+					(name "VOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "buck_converter:U3V70F5"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -3893,6 +4054,12 @@
 		(uuid "07a3a496-b7fc-4367-9a2f-7ef4cfe55698")
 	)
 	(junction
+		(at 92.075 57.15)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0f30281b-433d-42c3-b451-4a824fc48ddd")
+	)
+	(junction
 		(at 253.365 87.63)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3963,6 +4130,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "69cbf986-4951-4997-a7bc-7d157f337f00")
+	)
+	(junction
+		(at 51.435 59.69)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "69d8f9da-70ec-4cd4-a1b4-848fd7aa2016")
 	)
 	(junction
 		(at 27.94 58.42)
@@ -4043,6 +4216,12 @@
 		(uuid "cfb8eed7-3eaa-4e9f-afd1-677257812306")
 	)
 	(junction
+		(at 35.56 61.595)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d6bb35ed-3f37-4f5a-bd7d-bb81951a258f")
+	)
+	(junction
 		(at 116.84 46.355)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4053,6 +4232,24 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ecae7e7b-571d-4846-b633-bf59033e63a4")
+	)
+	(junction
+		(at 27.94 45.72)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ed175bad-8e07-4cee-9365-70679d95abae")
+	)
+	(junction
+		(at 27.94 61.595)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f62652ba-57be-4be2-a23c-96d0dfcc9f96")
+	)
+	(junction
+		(at 27.94 40.005)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "fc69c7b3-3a63-4304-b7da-28a337328222")
 	)
 	(wire
 		(pts
@@ -4106,13 +4303,33 @@
 	)
 	(wire
 		(pts
-			(xy 27.94 43.18) (xy 27.94 58.42)
+			(xy 48.26 59.69) (xy 51.435 59.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0bc08baa-a6aa-4788-8143-a1e1e5f5406f")
+	)
+	(wire
+		(pts
+			(xy 27.94 38.735) (xy 27.94 40.005)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "0d8835d9-d465-4e33-864d-d1a46aec48fd")
+	)
+	(wire
+		(pts
+			(xy 51.435 59.69) (xy 53.975 59.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0d94f458-1fb8-43b2-a5be-f7842aa6132e")
 	)
 	(wire
 		(pts
@@ -4126,7 +4343,7 @@
 	)
 	(wire
 		(pts
-			(xy 35.56 58.42) (xy 35.56 67.31)
+			(xy 35.56 58.42) (xy 35.56 61.595)
 		)
 		(stroke
 			(width 0)
@@ -4476,6 +4693,16 @@
 	)
 	(wire
 		(pts
+			(xy 87.63 39.37) (xy 92.075 39.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "46ebf7a8-3029-49f7-bfa5-9461dbcf6147")
+	)
+	(wire
+		(pts
 			(xy 247.015 55.88) (xy 247.015 78.105)
 		)
 		(stroke
@@ -4706,6 +4933,16 @@
 	)
 	(wire
 		(pts
+			(xy 35.56 61.595) (xy 35.56 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6f2273d0-c156-4695-8b09-e7936f4746cc")
+	)
+	(wire
+		(pts
 			(xy 260.985 139.065) (xy 260.985 97.155)
 		)
 		(stroke
@@ -4736,7 +4973,7 @@
 	)
 	(wire
 		(pts
-			(xy 78.105 40.005) (xy 78.74 40.005)
+			(xy 90.805 53.34) (xy 95.25 53.34)
 		)
 		(stroke
 			(width 0)
@@ -4776,7 +5013,7 @@
 	)
 	(wire
 		(pts
-			(xy 27.94 58.42) (xy 27.94 62.23)
+			(xy 27.94 58.42) (xy 27.94 61.595)
 		)
 		(stroke
 			(width 0)
@@ -4793,6 +5030,16 @@
 			(type default)
 		)
 		(uuid "7b9e4ccc-731f-47df-bbb1-091d5b28c431")
+	)
+	(wire
+		(pts
+			(xy 27.94 40.005) (xy 27.94 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7dcc3d09-cca9-4e0a-9bb0-cb94f52a6eae")
 	)
 	(wire
 		(pts
@@ -4876,6 +5123,16 @@
 	)
 	(wire
 		(pts
+			(xy 59.69 46.99) (xy 51.435 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9904108f-ebc5-4aea-aba9-20050398f383")
+	)
+	(wire
+		(pts
 			(xy 78.74 77.47) (xy 80.01 77.47)
 		)
 		(stroke
@@ -4893,6 +5150,26 @@
 			(type default)
 		)
 		(uuid "a448bc32-8285-4a5d-bf33-290a90ac15e6")
+	)
+	(wire
+		(pts
+			(xy 27.94 61.595) (xy 27.94 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a4bfc494-fe42-4668-a20b-80547f3508f6")
+	)
+	(wire
+		(pts
+			(xy 90.805 57.15) (xy 92.075 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a68d0568-9d70-4f5b-88cd-d791e4a3c8c5")
 	)
 	(wire
 		(pts
@@ -4973,6 +5250,16 @@
 			(type default)
 		)
 		(uuid "aeda4f49-53c6-4f4e-afdb-8601abdc8793")
+	)
+	(wire
+		(pts
+			(xy 51.435 46.99) (xy 51.435 59.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "af109128-4fda-4b1c-a975-18ba0f6e1d82")
 	)
 	(wire
 		(pts
@@ -5066,6 +5353,16 @@
 	)
 	(wire
 		(pts
+			(xy 76.2 39.37) (xy 76.2 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c24076ac-7321-4274-9385-0061d19bc349")
+	)
+	(wire
+		(pts
 			(xy 168.275 70.485) (xy 205.105 70.485)
 		)
 		(stroke
@@ -5156,6 +5453,16 @@
 	)
 	(wire
 		(pts
+			(xy 47.625 55.88) (xy 53.975 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d1ee80e9-a20b-4b49-a28c-f00f5f5c7f80")
+	)
+	(wire
+		(pts
 			(xy 247.015 78.105) (xy 263.525 78.105)
 		)
 		(stroke
@@ -5216,6 +5523,16 @@
 	)
 	(wire
 		(pts
+			(xy 76.2 46.99) (xy 67.31 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dc579cab-4173-40bc-90dc-2e57b8e43547")
+	)
+	(wire
+		(pts
 			(xy 177.165 62.865) (xy 177.165 76.835)
 		)
 		(stroke
@@ -5256,6 +5573,16 @@
 	)
 	(wire
 		(pts
+			(xy 27.94 45.72) (xy 27.94 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e7b2e412-4bd6-4410-87d8-0f2ca237af09")
+	)
+	(wire
+		(pts
 			(xy 196.215 104.775) (xy 196.215 109.855)
 		)
 		(stroke
@@ -5286,6 +5613,16 @@
 	)
 	(wire
 		(pts
+			(xy 92.075 57.15) (xy 93.98 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ec170d7e-9e91-4969-a36b-c619aa0da1cb")
+	)
+	(wire
+		(pts
 			(xy 156.21 46.355) (xy 158.75 46.355)
 		)
 		(stroke
@@ -5293,6 +5630,16 @@
 			(type default)
 		)
 		(uuid "ed310d46-f4f5-4c5e-89fa-30edb9c553e5")
+	)
+	(wire
+		(pts
+			(xy 92.075 46.99) (xy 92.075 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eed9252c-1b52-4e0a-a578-74359c785e8a")
 	)
 	(wire
 		(pts
@@ -5504,8 +5851,77 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:C_Small")
+		(at 30.48 45.72 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "0678a4f7-0fd4-49a0-ba23-6fd4e0888930")
+		(property "Reference" "C11"
+			(at 26.035 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10µF"
+			(at 33.02 48.26 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder"
+			(at 30.48 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 30.48 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor, small symbol"
+			(at 30.48 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c86cd54e-12d6-4150-b82d-1248691f420e")
+		)
+		(pin "2"
+			(uuid "3e00771c-7de7-4abc-aee6-4ee33a8a547d")
+		)
+		(instances
+			(project "mini_weather_monitor"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+					(reference "C11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "buck_converter:U3V70F5")
-		(at 59.055 42.545 0)
+		(at 71.755 55.88 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5514,15 +5930,15 @@
 		(fields_autoplaced yes)
 		(uuid "07da24ee-ee40-41c4-81a6-16b5b62ce8aa")
 		(property "Reference" "U1"
-			(at 59.69 33.02 0)
+			(at 72.39 46.355 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "~"
-			(at 59.69 34.29 0)
+		(property "Value" "U3V70F5"
+			(at 72.39 47.625 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5530,7 +5946,7 @@
 			)
 		)
 		(property "Footprint" "boost_converter:Pololu U3V70F5"
-			(at 59.055 42.545 0)
+			(at 71.755 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5539,7 +5955,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 59.055 42.545 0)
+			(at 71.755 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5548,7 +5964,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 59.055 42.545 0)
+			(at 71.755 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5582,6 +5998,140 @@
 	)
 	(symbol
 		(lib_id "Device:C_Small")
+		(at 30.48 40.005 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "0820e0a3-7fbd-495b-9f95-5763768247d4")
+		(property "Reference" "C12"
+			(at 26.035 41.275 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "470 µF"
+			(at 33.655 42.545 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder"
+			(at 30.48 40.005 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 30.48 40.005 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor, small symbol"
+			(at 30.48 40.005 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "169d7894-0a65-48c5-9f05-13295cf4130f")
+		)
+		(pin "2"
+			(uuid "2a010408-076b-4e39-a338-2dedf030197f")
+		)
+		(instances
+			(project "mini_weather_monitor"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+					(reference "C12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 33.02 40.005 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "0f8d982e-2156-4b37-97d1-f77fe7662243")
+		(property "Reference" "#PWR019"
+			(at 39.37 40.005 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 36.83 40.005 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 33.02 40.005 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 33.02 40.005 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 33.02 40.005 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9c6de1e1-c571-46f0-8b11-bdee89de2f68")
+		)
+		(instances
+			(project "mini_weather_monitor"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+					(reference "#PWR019")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C_Small")
 		(at 192.405 52.07 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -5598,7 +6148,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10uF"
+		(property "Value" "10µF"
 			(at 189.865 55.245 90)
 			(effects
 				(font
@@ -6297,7 +6847,7 @@
 	)
 	(symbol
 		(lib_id "power:VBUS")
-		(at 27.94 43.18 0)
+		(at 27.94 38.735 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6306,7 +6856,7 @@
 		(fields_autoplaced yes)
 		(uuid "32803893-b26c-4a48-95ab-9605d882b991")
 		(property "Reference" "#PWR013"
-			(at 27.94 46.99 0)
+			(at 27.94 42.545 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6315,7 +6865,7 @@
 			)
 		)
 		(property "Value" "VBUS"
-			(at 27.94 38.735 0)
+			(at 27.94 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6323,7 +6873,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 27.94 43.18 0)
+			(at 27.94 38.735 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6332,7 +6882,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 27.94 43.18 0)
+			(at 27.94 38.735 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6341,7 +6891,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VBUS\""
-			(at 27.94 43.18 0)
+			(at 27.94 38.735 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6509,7 +7059,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10uF"
+		(property "Value" "10µF"
 			(at 106.68 51.435 90)
 			(effects
 				(font
@@ -6562,7 +7112,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 41.275 42.545 270)
+		(at 47.625 55.88 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6570,7 +7120,7 @@
 		(dnp no)
 		(uuid "4c0c400d-85ad-4d09-9f22-17e34475011c")
 		(property "Reference" "#PWR03"
-			(at 34.925 42.545 0)
+			(at 41.275 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6579,7 +7129,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 37.465 42.545 0)
+			(at 43.815 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6587,7 +7137,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 41.275 42.545 0)
+			(at 47.625 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6596,7 +7146,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 41.275 42.545 0)
+			(at 47.625 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6605,7 +7155,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 41.275 42.545 0)
+			(at 47.625 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6620,6 +7170,71 @@
 			(project "mini_weather_monitor"
 				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
 					(reference "#PWR03")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 83.82 39.37 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "554c9569-1879-4a6e-8f58-15c443261260")
+		(property "Reference" "#PWR018"
+			(at 83.82 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 83.82 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 83.82 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 83.82 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 83.82 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "774a82e0-f1f4-433e-b7a5-8bb319ad9252")
+		)
+		(instances
+			(project "mini_weather_monitor"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+					(reference "#PWR018")
 					(unit 1)
 				)
 			)
@@ -6968,6 +7583,71 @@
 	)
 	(symbol
 		(lib_id "power:GND")
+		(at 80.01 39.37 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "5e40e673-ad09-4de1-818a-08b502660449")
+		(property "Reference" "#PWR017"
+			(at 80.01 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 80.01 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 80.01 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 80.01 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 80.01 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0b5228d7-8969-4930-8523-7921d96e10d1")
+		)
+		(instances
+			(project "mini_weather_monitor"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+					(reference "#PWR017")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
 		(at 189.865 55.245 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -7033,7 +7713,7 @@
 	)
 	(symbol
 		(lib_id "power:VCC")
-		(at 78.105 43.815 270)
+		(at 93.98 57.15 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7041,7 +7721,7 @@
 		(dnp no)
 		(uuid "6ce8b1ec-57b1-4051-afbc-545092688a2d")
 		(property "Reference" "#PWR01"
-			(at 74.295 43.815 0)
+			(at 90.17 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7050,7 +7730,7 @@
 			)
 		)
 		(property "Value" "VCC"
-			(at 81.28 43.8149 90)
+			(at 97.155 57.1499 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7059,7 +7739,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 78.105 43.815 0)
+			(at 93.98 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7068,7 +7748,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 78.105 43.815 0)
+			(at 93.98 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7077,7 +7757,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VCC\""
-			(at 78.105 43.815 0)
+			(at 93.98 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7230,6 +7910,85 @@
 		)
 	)
 	(symbol
+		(lib_id "boost_converter:pololu_S13V30F5")
+		(at 80.01 25.4 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "71e17604-8cbb-49cf-90c5-08a93e94824b")
+		(property "Reference" "U3"
+			(at 92.075 25.0161 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "S13v30F5"
+			(at 92.075 26.9212 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "boost_converter:pololu S13V30F5 step up step down"
+			(at 80.01 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 80.01 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 80.01 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "4"
+			(uuid "47e4ac95-c10b-4212-9adf-c0cdae7915f8")
+		)
+		(pin "5"
+			(uuid "260d07f0-c4d0-4406-8899-3026530e1ad6")
+		)
+		(pin "1"
+			(uuid "cbb95f7d-2acc-47ac-801e-8f3e2e545e01")
+		)
+		(pin "2"
+			(uuid "c730a479-54c4-4dea-b7d6-e8f785fcbbc4")
+		)
+		(pin "3"
+			(uuid "fcf10967-760d-47e1-b6b3-37d8c3b50a6c")
+		)
+		(instances
+			(project "mini_weather_monitor"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+					(reference "U3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Diode:1N5819")
 		(at 31.75 58.42 0)
 		(unit 1)
@@ -7315,7 +8074,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10uF"
+		(property "Value" "10µF"
 			(at 258.445 93.98 90)
 			(effects
 				(font
@@ -7645,7 +8404,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10uF"
+		(property "Value" "10µF"
 			(at 99.695 110.49 0)
 			(effects
 				(font
@@ -7691,6 +8450,73 @@
 			(project "mini_weather_monitor"
 				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
 					(reference "C8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Jumper:SolderJumper_2_Open")
+		(at 92.075 43.18 270)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "9f617bb0-0dbd-4c44-97ef-e84afdc68fd2")
+		(property "Reference" "JP2"
+			(at 97.79 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "s13v30f5_VOUT"
+			(at 88.9 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm"
+			(at 92.075 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 92.075 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Solder Jumper, 2-pole, open"
+			(at 92.075 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "320c43e5-c86a-4a5b-bef6-c1f1b3417a2d")
+		)
+		(pin "1"
+			(uuid "a7e6c9cd-6a85-4feb-b039-b6dbd06a3733")
+		)
+		(instances
+			(project "mini_weather_monitor"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+					(reference "JP2")
 					(unit 1)
 				)
 			)
@@ -7851,7 +8677,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10uF"
+		(property "Value" "10µF"
 			(at 191.77 102.235 90)
 			(effects
 				(font
@@ -7904,7 +8730,7 @@
 	)
 	(symbol
 		(lib_id "power:VBUS")
-		(at 41.275 46.355 90)
+		(at 48.26 59.69 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7913,7 +8739,7 @@
 		(fields_autoplaced yes)
 		(uuid "af929a4e-5568-4878-bc49-4e5b63a3718f")
 		(property "Reference" "#PWR014"
-			(at 45.085 46.355 0)
+			(at 52.07 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7922,7 +8748,7 @@
 			)
 		)
 		(property "Value" "VBUS"
-			(at 37.465 46.3549 90)
+			(at 44.45 59.6899 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7931,7 +8757,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 41.275 46.355 0)
+			(at 48.26 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7940,7 +8766,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 41.275 46.355 0)
+			(at 48.26 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7949,7 +8775,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VBUS\""
-			(at 41.275 46.355 0)
+			(at 48.26 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7964,6 +8790,71 @@
 			(project "mini_weather_monitor"
 				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
 					(reference "#PWR014")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 33.02 45.72 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b01489a2-fab4-41d6-9f72-ad8c4d59014c")
+		(property "Reference" "#PWR020"
+			(at 39.37 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 36.83 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 33.02 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 33.02 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 33.02 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "08973237-43fa-409e-91bc-5b6a0b9ee7e1")
+		)
+		(instances
+			(project "mini_weather_monitor"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+					(reference "#PWR020")
 					(unit 1)
 				)
 			)
@@ -8293,6 +9184,74 @@
 			(project "mini_weather_monitor"
 				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
 					(reference "#PWR0109")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 31.75 61.595 270)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "cd26006b-d836-4a2a-879a-47d75cac895d")
+		(property "Reference" "R2"
+			(at 31.75 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1k"
+			(at 31.75 61.595 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric"
+			(at 31.75 63.373 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 31.75 61.595 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 31.75 61.595 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5483a1f9-0ec9-4457-86b9-20f410211bad")
+		)
+		(pin "2"
+			(uuid "ce4ac836-d6a3-496b-b3cf-96c347548ee0")
+		)
+		(instances
+			(project "mini_weather_monitor"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+					(reference "R2")
 					(unit 1)
 				)
 			)
@@ -8828,6 +9787,73 @@
 		)
 	)
 	(symbol
+		(lib_id "Jumper:SolderJumper_2_Open")
+		(at 63.5 46.99 180)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "e3cc6416-b0e9-4ad5-8078-8f6feb1c7ad3")
+		(property "Reference" "JP1"
+			(at 63.5 52.705 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "s13v30f5_VIN"
+			(at 63.5 43.815 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm"
+			(at 63.5 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 63.5 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Solder Jumper, 2-pole, open"
+			(at 63.5 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "d5045c07-af3f-4bf5-9fb5-b2e3656f4e86")
+		)
+		(pin "1"
+			(uuid "ee173560-1c2f-473d-b1af-4fa85617dc1b")
+		)
+		(instances
+			(project "mini_weather_monitor"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+					(reference "JP1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "zicheng_minisdcard:zicheng_minisdcard")
 		(at 259.715 59.69 0)
 		(unit 1)
@@ -9174,7 +10200,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 78.74 40.005 90)
+		(at 95.25 53.34 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9182,7 +10208,7 @@
 		(dnp no)
 		(uuid "fbed25c1-8afe-454d-a1ef-4e94c0655f26")
 		(property "Reference" "#PWR09"
-			(at 85.09 40.005 0)
+			(at 101.6 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9191,7 +10217,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 82.55 40.005 0)
+			(at 99.06 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9199,7 +10225,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 78.74 40.005 0)
+			(at 95.25 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9208,7 +10234,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 78.74 40.005 0)
+			(at 95.25 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9217,7 +10243,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 78.74 40.005 0)
+			(at 95.25 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)

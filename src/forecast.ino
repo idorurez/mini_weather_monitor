@@ -75,7 +75,7 @@ Location parseLocation(String json) {
     return location;
 }
 
-ForecastParsed parseCurrentForecastResp(String json) {
+ForecastParsed parseCurrentForecastResp(String json, int day) {
   // Use arduinojson.org/v6/assistant to compute the capacity.
   const size_t capacity = 12288; // 12288;
   DynamicJsonDocument doc(capacity);
@@ -90,25 +90,24 @@ ForecastParsed parseCurrentForecastResp(String json) {
 
     // assume non-null
 
-    int index = 0;
-    String checkNull = doc["daypart"][0]["daypartName"][index];
+    int day_part = 0;
+    String checkNull = doc["daypart"][0]["daypartName"][day];
     if (checkNull == "null") {
-      index = 1;
+      day_part++;
     }
+    parsedInfo.dayOfWeek = doc["daypart"][0]["daypartName"][day_part];
+    parsedInfo.iconCode = doc["daypart"][0]["iconCode"][day_part];
 
-    parsedInfo.dayOfWeek = doc["daypart"][0]["daypartName"][index];
-    parsedInfo.iconCode = doc["daypart"][0]["iconCode"][index];
+    parsedInfo.temperatureMax = doc["daypart"][0]["temperatureMax"][day_part];
+    parsedInfo.temperatureMin = doc["daypart"][0]["temperature"][0+day];
 
-    parsedInfo.temperatureMax = doc["daypart"][0]["temperature"][0];
-    parsedInfo.temperatureMin = doc["daypart"][0]["temperature"][1];
-
-    parsedInfo.windDirectionCardinal = doc["daypart"][0]["windDirectionCardinal"][index];
-    parsedInfo.wxPhraseShort = doc["daypart"][0]["wxPhraseShort"][index];
-    parsedInfo.precipChance = doc["daypart"][0]["precipChance"][index];
-    parsedInfo.qpf = doc["daypart"][0]["qpf"][index];
-    parsedInfo.uvDescription = doc["daypart"][0]["uvDescription"][index];
-    parsedInfo.uvIndex = doc["daypart"][0]["uvIndex"][index];
-    parsedInfo.windSpeed = doc["daypart"][0]["windSpeed"][index];
+    parsedInfo.windDirectionCardinal = doc["daypart"][0]["windDirectionCardinal"][day];
+    parsedInfo.wxPhraseShort = doc["daypart"][0]["wxPhraseShort"][day];
+    parsedInfo.precipChance = doc["daypart"][0]["precipChance"][day];
+    parsedInfo.qpf = doc["daypart"][0]["qpf"][day];
+    parsedInfo.uvDescription = doc["daypart"][0]["uvDescription"][day];
+    parsedInfo.uvIndex = doc["daypart"][0]["uvIndex"][day];
+    parsedInfo.windSpeed = doc["daypart"][0]["windSpeed"][day];
   }
   return parsedInfo;
 }
