@@ -102,7 +102,48 @@ void drawPressure(float pressure) {
     spr_pressure.deleteSprite();
 }
 
-void drawForecast(ForecastParsed forecast, int x, int y, bool stats_only=false) {
+void drawForecastTodaySummary(ForecastParsed day, ForecastParsed tonight, int x, int y, bool stats_only=false) {
+    int offset = 0;
+    tft.setTextWrap(false, false);
+    tft.fillRect(x, y, TFT_W, TFT_H, TFT_BLACK);
+
+    
+    int textOffset = 0;
+    if (!stats_only) {
+        String suffix = "_120x120";
+        String iconPath;
+
+        if (day.dayPartName != "null") {
+            iconPath = "/" + String(day.iconCode) + suffix + ".jpg";
+        } else {
+            iconPath = "/" + String(tonight.iconCode) + suffix + ".jpg";
+        }
+        drawSdJpeg(iconPath.c_str(), x, y);
+        textOffset = 170;
+    }
+    tft.loadFont(AA_FONT_15, SD);
+    tft.setTextDatum(MC_DATUM);
+    
+    // draw as if it's the normal forecast
+    if (day.dayPartName != "null") {
+        tft.drawString(day.dayPartName, x+textOffset, y+10);
+        tft.drawString(String(day.temperature) + "°/" + String(tonight.temperature) + "°", x+textOffset, y+30);
+        tft.drawString("UV Index: " + String(day.uvIndex), x+textOffset, y+50);
+        tft.drawString(String(day.windDirectionCardinal) + " " + String(day.windSpeed), x+textOffset, y+70);
+        tft.drawString(String(day.precipChance) + "% " + String(day.qpf) + " in", x+textOffset, y+90);
+        tft.drawString(String(day.wxPhraseShort), x+textOffset, y+110);
+    } else {
+        tft.drawString(tonight.dayPartName, x+textOffset, y+10);
+        tft.drawString(String(tonight.temperature) + "°", x+textOffset, y+30);
+        tft.drawString(String(tonight.windDirectionCardinal) + " " + String(tonight.windSpeed), x+textOffset, y+70);
+        tft.drawString(String(tonight.precipChance) + "% " + String(tonight.qpf) + " in", x+textOffset, y+90);
+        tft.drawString(String(tonight.wxPhraseShort), x+textOffset, y+110);
+    }
+    tft.unloadFont();
+    
+}
+
+void drawForecastTomorrow(ForecastParsed forecast, int x, int y, bool stats_only=false) {
     int offset = 0;
     tft.setTextWrap(false, false);
     tft.fillRect(x, y, TFT_W, TFT_H, TFT_BLACK);
@@ -145,7 +186,8 @@ void drawLocation() {
 
 void drawForecast() {
     today = parseCurrentForecastResp(forecastResp, 0);
+    tonight = parseCurrentForecastResp(forecastResp, 1);
     tomorrow = parseExtendedForecastResp(forecastResp, 1);
-    drawForecast(today, 0, 350);  
-    drawForecast(tomorrow, 260, 350, true);
+    drawForecastTodaySummary(today, tonight, 0, 350);  
+    drawForecastTomorrow(tomorrow, 260, 350, true);
 }

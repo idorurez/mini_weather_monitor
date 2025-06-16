@@ -75,7 +75,7 @@ Location parseLocation(String json) {
     return location;
 }
 
-ForecastParsed parseCurrentForecastResp(String json, int day) {
+ForecastParsed parseCurrentForecastResp(String json, int day_part) {
   // Use arduinojson.org/v6/assistant to compute the capacity.
   const size_t capacity = 12288; // 12288;
   DynamicJsonDocument doc(capacity);
@@ -86,28 +86,25 @@ ForecastParsed parseCurrentForecastResp(String json, int day) {
   if (error) {
     Serial.print(F("deserializeJson() failed: "));
     Serial.println(error.f_str());
-  } else {
+    return parsedInfo;
+  }
 
-    // assume non-null
-
-    int day_part = 0;
-    String checkNull = doc["daypart"][0]["daypartName"][day];
-    if (checkNull == "null") {
-      day_part++;
-    }
-    parsedInfo.dayOfWeek = doc["daypart"][0]["daypartName"][day_part];
+  JsonVariant valcheck = doc["daypart"][0]["daypartName"][day_part];
+  // if it's null, it's because the forecast has shifted to night time forecasting
+  if (!valcheck.isNull()) {
+    parsedInfo.dayPartName = doc["daypart"][0]["daypartName"][day_part];
     parsedInfo.iconCode = doc["daypart"][0]["iconCode"][day_part];
-
-    parsedInfo.temperatureMax = doc["daypart"][0]["temperatureMax"][day_part];
-    parsedInfo.temperatureMin = doc["daypart"][0]["temperature"][0+day];
-
-    parsedInfo.windDirectionCardinal = doc["daypart"][0]["windDirectionCardinal"][day];
-    parsedInfo.wxPhraseShort = doc["daypart"][0]["wxPhraseShort"][day];
-    parsedInfo.precipChance = doc["daypart"][0]["precipChance"][day];
-    parsedInfo.qpf = doc["daypart"][0]["qpf"][day];
-    parsedInfo.uvDescription = doc["daypart"][0]["uvDescription"][day];
-    parsedInfo.uvIndex = doc["daypart"][0]["uvIndex"][day];
-    parsedInfo.windSpeed = doc["daypart"][0]["windSpeed"][day];
+    parsedInfo.temperature = doc["daypart"][0]["temperature"][day_part];
+    parsedInfo.windDirectionCardinal = doc["daypart"][0]["windDirectionCardinal"][day_part];
+    parsedInfo.wxPhraseShort = doc["daypart"][0]["wxPhraseShort"][day_part];
+    parsedInfo.precipChance = doc["daypart"][0]["precipChance"][day_part];
+    parsedInfo.qpf = doc["daypart"][0]["qpf"][day_part];
+    parsedInfo.uvDescription = doc["daypart"][0]["uvDescription"][day_part];
+    parsedInfo.uvIndex = doc["daypart"][0]["uvIndex"][day_part];
+    parsedInfo.windSpeed = doc["daypart"][0]["windSpeed"][day_part];
+  } else {
+    Serial.println("NULL");
+    parsedInfo.dayPartName = "null";
   }
   return parsedInfo;
 }
@@ -129,6 +126,7 @@ ForecastParsed parseExtendedForecastResp(String json, int forecastDay) {
     parsedInfo.temperatureMax = doc["calendarDayTemperatureMax"][forecastDay];
     parsedInfo.temperatureMin = doc["calendarDayTemperatureMin"][forecastDay];
     parsedInfo.windDirectionCardinal = doc["daypart"][0]["windDirectionCardinal"][forecastDay*2];
+    parsedInfo.uvIndex =  doc["daypart"][0]["uvIndex"][forecastDay*2];
     parsedInfo.wxPhraseShort = doc["daypart"][0]["wxPhraseShort"][forecastDay*2];
     parsedInfo.precipChance = doc["daypart"][0]["precipChance"][forecastDay*2];
     parsedInfo.qpf = doc["daypart"][0]["qpf"][forecastDay*2];

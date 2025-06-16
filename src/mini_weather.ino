@@ -83,6 +83,8 @@ WeatherConfig config;
 
 struct ForecastParsed {
   const char* dayOfWeek;
+  const char* dayPartName;
+  int temperature;
   int temperatureMax;
   int temperatureMin;
   int precipChance;
@@ -95,7 +97,7 @@ struct ForecastParsed {
   int uvIndex;
 };
 
-ForecastParsed today, tomorrow;
+ForecastParsed today, tonight, tomorrow;
 
 struct Location {
   const char* neighborhood;
