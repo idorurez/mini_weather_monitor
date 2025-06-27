@@ -30,6 +30,7 @@
 // === backlight screen pwm
 int PWM1_DutyCycle = 0;
 
+
 // Buffer for data output
 char dataOut[256];
 volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
@@ -54,6 +55,8 @@ String forecastResp, locationResp;
 
 // BH1750 I2C
 BH1750 lightMeter(0x23);
+float lux;
+#define DARK 5
 
 TFT_eSPI tft = TFT_eSPI();
 TFT_eSprite spr_pressure = TFT_eSprite(&tft); // Sprite object
@@ -239,7 +242,7 @@ void loop() {
 
   // === check light meter stuff and set display intensity
   if (lightMeter.measurementReady()) {
-    float lux = lightMeter.readLightLevel();
+    lux = lightMeter.readLightLevel();
     PWM1_DutyCycle = (0.85 * lux) + 1;
     PWM1_DutyCycle = constrain(PWM1_DutyCycle, 0.001, 90);
     ledcWrite(PWM1_CH, PWM1_DutyCycle);

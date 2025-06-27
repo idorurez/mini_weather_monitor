@@ -40,7 +40,13 @@ void printLocalTime(int x, int y){
     spr_time.setColorDepth(8);       // just black and white mam
     spr_time.createSprite(270, 160);  // 160 x 100 sprite
     spr_time.fillSprite(TFT_BLACK); // Fill the Sprite with black
-    spr_time.setTextColor(TFT_ORANGE);
+    // Serial.println("lux is " + String(lux));
+    if (lux > DARK) {
+        spr_time.setTextColor(TFT_ORANGE);
+    } else {
+        spr_time.setTextColor(TFT_WHITE);
+
+    }
     spr_time.loadFont(AA_FONT_65);
     spr_time.setCursor(5, 0);
     spr_time.println(&timeinfo, "%H:%M:%S"); // print time
@@ -56,7 +62,9 @@ void printLocalTime(int x, int y){
     if (w >= 485) { // Wednesday is the culprit
         spr_time.loadFont(AA_FONT_48);
     }
+    spr_time.setTextColor(TFT_MAGENTA);
     spr_time.println(&timeinfo, "%A");   // day of the week
+    spr_time.setTextColor(TFT_WHITE);
     spr_time.setCursor(5, 115);
     spr_time.loadFont(AA_FONT_45);
     spr_time.println(&timeinfo, "%B %d"); // month and date
