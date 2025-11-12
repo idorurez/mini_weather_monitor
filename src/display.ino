@@ -67,6 +67,16 @@ void printLocalTime(int x, int y){
     spr_time.setTextColor(TFT_WHITE);
     spr_time.setCursor(5, 115);
     spr_time.loadFont(AA_FONT_45);
+
+    char dateBuffer[32];
+    strftime(dateBuffer, sizeof(dateBuffer), "%B %d", &timeinfo);  // e.g. "November 11"
+    String monthDate = String(dateBuffer);
+
+    int16_t dw = tft.textWidth(monthDate);  // Measure pixel width of "November 11"
+    // Serial.printf("Month/date text length: %d px\n", dw);    
+    if (dw >= 550) {
+        spr_time.loadFont(AA_FONT_40);
+    }
     spr_time.println(&timeinfo, "%B %d"); // month and date
     spr_time.pushSprite(x, y);
     spr_time.deleteSprite();
