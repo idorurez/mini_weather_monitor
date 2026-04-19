@@ -1,14 +1,13 @@
 /*
  * Hardware:
- * - TFT LCD (SD card + touch) using ILI9341 via 8bit parallel interface: http://www.lcdwiki.com/3.2inch_16BIT_Module_ILI9341_SKU:MRB3205
- * - ESP-WROOM-32 dev Board 
- * 
- * Wiring: just follow the pin definitios below
- * NOTE: In order to make everything work you HAVE to solder the SMD resistor (actually it's a jumper) in 8bit position.
- * */
-// #include <XPT2046_Touchscreen.h> //https://github.com/PaulStoffregen/XPT2046_Touchscreen
-#include <TFT_eSPI.h> // https://github.com/Bodmer/TFT_eSPI
-#include <SPI.h>  //https://github.com/espressif/arduino-esp32/tree/master/libraries/SPI
+ * - ESP-WROOM-32 devkit
+ * - 4" 480x320 TFT (ST7796) on HSPI; pins in src/User_Setup.h
+ * - SD card on VSPI (separate bus from TFT)
+ * - BME280 + BH1750 on I2C
+ * Pin map in src/User_Setup.h. Runtime config (api keys, ssid, geo) on SD as /weather.cfg.
+ */
+#include <TFT_eSPI.h>
+#include <SPI.h>
 #include "SD.h"
 #include "time.h"
 #include <esp_task_wdt.h>
@@ -20,7 +19,6 @@
 #include <BH1750.h>
 #include <JPEGDecoder.h>
 #include <Wifi.h>
-#include <SPIFFS.h>
 
 #define LED_BUILTIN   2  //Diagnostics using built-in LED
 
@@ -30,28 +28,22 @@
 // === backlight screen pwm
 int PWM1_DutyCycle = 0;
 
-
-// Buffer for data output
-char dataOut[256];
-volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
-
 // BME280
 #define SEALEVELPRESSURE_HPA (1013.25)
 #define BME280_TEMP_ADJUST -2
 
 Adafruit_BME280 bme; // I2C
-Adafruit_Sensor *bme_temp;
-Adafruit_Sensor *bme_pressure;
-Adafruit_Sensor *bme_humidity;
 
-unsigned long bmeUpdateDelay = 60 * 1000; // 60 seconds for bme update
-unsigned long weatherUpdateDelay = 30 * 60 * 1000; // 30 minutes
+const unsigned long bmeUpdateDelay     = 60UL * 1000;        // 60s
+const unsigned long weatherUpdateDelay = 30UL * 60 * 1000;   // 30min
+const unsigned long timeUpdateDelay    = 1000;               // 1s
+const unsigned long heapLogDelay       = 60UL * 1000;        // 60s
 
 unsigned long bmeUpdateTime = 0;
 unsigned long weatherUpdateTime = 0;
+unsigned long timeUpdateTime = 0;
+unsigned long heapLogTime = 0;
 unsigned long currTime;
-bool triggerUpdate = false;
-String forecastResp, locationResp;
 
 // BH1750 I2C
 BH1750 lightMeter(0x23);
@@ -59,13 +51,9 @@ float lux;
 #define DARK 5
 
 TFT_eSPI tft = TFT_eSPI();
-TFT_eSprite spr_pressure = TFT_eSprite(&tft); // Sprite object
+TFT_eSprite spr_pressure = TFT_eSprite(&tft);
 TFT_eSprite spr_time = TFT_eSprite(&tft);
 TFT_eSprite spr_location = TFT_eSprite(&tft);
-
-sensors_event_t temp_event, pressure_event, humidity_event;
-
-// current time stuff
 
 const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = -28800;
@@ -84,31 +72,44 @@ struct WeatherConfig  {
 
 WeatherConfig config; 
 
+// Owned char buffers — values survive the JsonDocument that produced them.
 struct ForecastParsed {
-  const char* dayOfWeek;
-  const char* dayPartName;
-  int temperature;
-  int temperatureMax;
-  int temperatureMin;
-  int precipChance;
+  bool  valid;
+  char  dayOfWeek[16];
+  char  dayPartName[16];
+  int   temperature;
+  int   temperatureMax;
+  int   temperatureMin;
+  int   precipChance;
   float qpf;
   float windSpeed;
-  const char* windDirectionCardinal;
-  const char* wxPhraseShort;
-  int iconCode;
-  const char* uvDescription;
-  int uvIndex;
+  char  windDirectionCardinal[8];
+  char  wxPhraseShort[40];
+  int   iconCode;
+  char  uvDescription[16];
+  int   uvIndex;
 };
 
 ForecastParsed today, tonight, tomorrow;
 
 struct Location {
-  const char* neighborhood;
-  const char* city;
-  const char* state;
+  bool valid;
+  char neighborhood[48];
+  char city[48];
+  char state[8];
 };
 
 Location location;
+
+// Network/screen state surfaced from wifi + fetch layers.
+enum NetState {
+  NET_OK,
+  NET_WIFI_FAILED,
+  NET_CAPTIVE_PORTAL,
+  NET_FETCH_FAILED
+};
+
+NetState netState = NET_OK;
 
 enum ForecastReq {
   FIVEDAY,
@@ -120,15 +121,36 @@ enum Orientation {
   LANDSCAPE = 3,
 };
 
-enum Orientation oriented = PORTRAIT;
+const Orientation oriented = PORTRAIT;
+const int TFT_W = 320;
+const int TFT_H = 480;
 
-int TFT_W = 320;
-int TFT_H = 480;
+// Refresh weather + location, updating netState and screen banners as needed.
+static void doWeatherRefresh() {
+  if (!wifiConnect()) {
+    netState = NET_WIFI_FAILED;
+    drawNetBanner(netState);
+    return;
+  }
+  if (isBehindCaptivePortal()) {
+    netState = NET_CAPTIVE_PORTAL;
+    drawNetBanner(netState);
+    return;
+  }
+  bool fok = refreshForecast();
+  bool lok = refreshLocation();
+  if (fok && lok) {
+    netState = NET_OK;
+    clearNetBanner();
+    drawForecast();
+    drawLocation();
+  } else {
+    netState = NET_FETCH_FAILED;
+    drawNetBanner(netState);
+  }
+}
 
 void setup(void) {
-  // esp_task_wdt_init(WDT_TIMEOUT, true); //enable panic so ESP32 restarts
-  // esp_task_wdt_add(NULL); //add current thread to WDT watch
-
   Serial.begin(115200);
   BlinkLED(1);
 
@@ -136,7 +158,7 @@ void setup(void) {
   digitalWrite(LED_BUILTIN, LOW);
   digitalWrite(TFT_CS, HIGH);
   digitalWrite(TFT_BL, HIGH);
-  digitalWrite(SD_PIN, HIGH);  
+  digitalWrite(SD_PIN, HIGH);
 
   tft.init();
   tft.fillScreen(TFT_BLACK);
@@ -144,75 +166,37 @@ void setup(void) {
   if (!SD.begin(SD_PIN)) {
     Serial.println("Card Mount Failed");
     BlinkLED(2);
-    }
+  }
 
   Wire.end();
-  Wire.begin(); // sda, scl, clock speed 
+  Wire.begin();
   Wire.setClock(100000);
-  // ==== LCD dimming
+
   ledcAttachPin(TFT_BL, PWM1_CH);
   ledcSetup(PWM1_CH, PWM1_FREQ, PWM1_RES);
   ledcWrite(PWM1_CH, PWM1_DutyCycle);
 
-  currTime = millis();
-
   uint8_t cardType = SD.cardType();
-
   if (cardType == CARD_NONE) {
     Serial.println("No SD card attached");
- 
   }
-
-  Serial.print("SD Card Type: ");
-  if (cardType == CARD_MMC) {
-    Serial.println("MMC");
-  } else if (cardType == CARD_SD) {
-    Serial.println("SDSC");
-  } else if (cardType == CARD_SDHC) {
-    Serial.println("SDHC");
-  } else {
-    Serial.println("UNKNOWN");
-  }
-
   uint64_t cardSize = SD.cardSize() / (1024 * 1024);
   Serial.printf("SD Card Size: %lluMB\n", cardSize);
-  Serial.println("initialisation done.");  
+
   GetSetConfig();
 
-  if (lightMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE)) {
-    Serial.println(F("BH1750 working in CONTINUOUS HIGH RES MODE"));
-  } else {
-    Serial.println(F("Error initialising BH1750"));
+  if (!lightMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE)) {
+    Serial.println(F("BH1750 init failed"));
   }
 
-  unsigned bme_status;
-  bme_status = bme.begin(0x76);
-  
-  // BlinkLED(3);
-
+  if (!bme.begin(0x76)) {
+    Serial.printf("BME280 init failed (sensorID=0x%x)\n", bme.sensorID());
+  }
   bme.setSampling(Adafruit_BME280::MODE_FORCED,
-    Adafruit_BME280::SAMPLING_X1, // temperature
-    Adafruit_BME280::SAMPLING_X1, // pressure
-    Adafruit_BME280::SAMPLING_X1, // humidity
-    Adafruit_BME280::FILTER_OFF );
-
-  bme_temp = bme.getTemperatureSensor();
-  bme_pressure = bme.getPressureSensor();
-  bme_humidity = bme.getHumiditySensor();
-
-  if (!bme_status) {
-    Serial.println("Could not find a valid BME280 sensor, check wiring, address, sensor ID!");
-    Serial.print("SensorID was: 0x"); Serial.println(bme.sensorID(),16);
-    Serial.print("        ID of 0xFF probably means a bad address, a BMP 180 or BMP 085\n");
-    Serial.print("   ID of 0x56-0x58 represents a BMP 280,\n");
-    Serial.print("        ID of 0x60 represents a BME 280.\n");
-    Serial.print("        ID of 0x61 represents a BME 680.\n");
-  } else {
-    bme_temp->printSensorDetails();
-    bme_pressure->printSensorDetails();
-    bme_humidity->printSensorDetails();
-  }
-
+                  Adafruit_BME280::SAMPLING_X1,
+                  Adafruit_BME280::SAMPLING_X1,
+                  Adafruit_BME280::SAMPLING_X1,
+                  Adafruit_BME280::FILTER_OFF);
   bme.takeForcedMeasurement();
 
   tft.begin();
@@ -223,24 +207,29 @@ void setup(void) {
   tft.fillScreen(TFT_BLACK);
   tft.println("Loading...");
   BlinkLED(3);
-  wifiConnect();
-  forecastResp = getForecast(FIVEDAY);
-  locationResp = getLocation();
-  
-  drawForecast();
-  displayIndoorConditions(bme.readTemperature(), bme.readPressure(), bme.readHumidity());
-  drawLocation();
-  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
-  BlinkLED(4);
 
+  // Watchdog covers the long blocking sections (wifi associate, http fetch).
+  esp_task_wdt_init(WDT_TIMEOUT, true);
+  esp_task_wdt_add(NULL);
+
+  doWeatherRefresh();
+  weatherUpdateTime = millis();
+
+  displayIndoorConditions(bme.readTemperature(), bme.readPressure(), bme.readHumidity());
+  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+
+  currTime = millis();
+  bmeUpdateTime = currTime;
+  timeUpdateTime = currTime;
+  heapLogTime = currTime;
+
+  BlinkLED(4);
 }
 
-void loop() { 
-
-  // esp_task_wdt_reset();
+void loop() {
+  esp_task_wdt_reset();
   bme.takeForcedMeasurement();
 
-  // === check light meter stuff and set display intensity
   if (lightMeter.measurementReady()) {
     lux = lightMeter.readLightLevel();
     PWM1_DutyCycle = (0.85 * lux) + 1;
@@ -248,7 +237,6 @@ void loop() {
     ledcWrite(PWM1_CH, PWM1_DutyCycle);
   }
 
-  // === check if we are scheduled to update indoor temps
   currTime = millis();
 
   if ((currTime - bmeUpdateTime) > bmeUpdateDelay) {
@@ -257,15 +245,19 @@ void loop() {
   }
 
   if ((currTime - weatherUpdateTime) > weatherUpdateDelay) {
-    wifiConnect();
-    forecastResp = getForecast(FIVEDAY);
-    drawForecast();
+    doWeatherRefresh();
     weatherUpdateTime = currTime;
-    drawLocation();
   }
 
-  printLocalTime(0, 175);
-  drawLocation();
+  if ((currTime - timeUpdateTime) > timeUpdateDelay) {
+    printLocalTime(0, 175);
+    timeUpdateTime = currTime;
+  }
+
+  if ((currTime - heapLogTime) > heapLogDelay) {
+    Serial.printf("[heap] free=%u min=%u\n", ESP.getFreeHeap(), ESP.getMinFreeHeap());
+    heapLogTime = currTime;
+  }
 }
 
 void GetSetConfig() {
