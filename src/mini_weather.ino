@@ -26,7 +26,13 @@
 #define WDT_TIMEOUT 60
 
 // === backlight screen pwm
-int PWM1_DutyCycle = 0;
+// Target = what the light sensor wants right now.
+// Current = where the backlight actually is; glides toward target via pwmStep().
+int   pwmTarget  = 0;
+float pwmCurrent = 0;
+unsigned long pwmStepTime = 0;
+const unsigned long pwmStepDelay = 20;  // ms between ramp steps
+const float pwmSmoothing = 0.12;        // 0..1; higher = faster fade
 
 // BME280
 #define SEALEVELPRESSURE_HPA (1013.25)
@@ -174,7 +180,7 @@ void setup(void) {
 
   ledcAttachPin(TFT_BL, PWM1_CH);
   ledcSetup(PWM1_CH, PWM1_FREQ, PWM1_RES);
-  ledcWrite(PWM1_CH, PWM1_DutyCycle);
+  ledcWrite(PWM1_CH, (int)pwmCurrent);
 
   uint8_t cardType = SD.cardType();
   if (cardType == CARD_NONE) {
@@ -232,12 +238,23 @@ void loop() {
 
   if (lightMeter.measurementReady()) {
     lux = lightMeter.readLightLevel();
-    PWM1_DutyCycle = (0.85 * lux) + 1;
-    PWM1_DutyCycle = constrain(PWM1_DutyCycle, 0.001, 90);
-    ledcWrite(PWM1_CH, PWM1_DutyCycle);
+    int target = (int)(0.85 * lux) + 1;
+    pwmTarget = constrain(target, 1, 90);
   }
 
   currTime = millis();
+
+  // Glide pwmCurrent toward pwmTarget so brightness changes are smooth, not stepped.
+  if ((currTime - pwmStepTime) > pwmStepDelay) {
+    pwmStepTime = currTime;
+    float delta = (float)pwmTarget - pwmCurrent;
+    if (fabsf(delta) < 0.5f) {
+      pwmCurrent = pwmTarget;
+    } else {
+      pwmCurrent += delta * pwmSmoothing;
+    }
+    ledcWrite(PWM1_CH, (int)(pwmCurrent + 0.5f));
+  }
 
   if ((currTime - bmeUpdateTime) > bmeUpdateDelay) {
     displayIndoorConditions(bme.readTemperature(), bme.readPressure(), bme.readHumidity());

@@ -14,15 +14,29 @@
 static const int kTimeSpriteW = 270;
 static const int kTimeMargin  = 10;  // 5px cursor + 5px right slack
 
-// Try fonts largest-first; load the first one whose rendered width fits.
-// Logs the measured width so you can recalibrate without guessing.
+// Pick the largest font that fits `text` within `budgetPx`, with per-call caching.
+// Callers pass a cacheText buffer + cacheFont pointer so the measurement loop runs
+// only when the rendered string changes (once a day for %A and %B %d, not once a second).
+// On cache hit we just reload the previously-chosen font for rendering.
 static void loadLargestFitting(TFT_eSprite& spr, const char* text, int budgetPx,
-                               const char* const* fonts, int n) {
+                               const char* const* fonts, int n,
+                               char* cacheText, size_t cacheSize,
+                               const char** cacheFont) {
+  if (*cacheFont && strcmp(text, cacheText) == 0) {
+    spr.loadFont(*cacheFont);
+    return;
+  }
+  strlcpy(cacheText, text, cacheSize);
   for (int i = 0; i < n; i++) {
     spr.loadFont(fonts[i]);
     int w = spr.textWidth(text);
-    Serial.printf("  fit '%s' @ %s = %dpx (budget %d)\n", text, fonts[i], w, budgetPx);
     if (w <= budgetPx || i == n - 1) {
+      if (i > 0 && w <= budgetPx) {
+        Serial.printf("  fit '%s' -> %s (%dpx, budget %d)\n", text, fonts[i], w, budgetPx);
+      } else if (w > budgetPx) {
+        Serial.printf("  overflow '%s' @ %s = %dpx (budget %d)\n", text, fonts[i], w, budgetPx);
+      }
+      *cacheFont = fonts[i];
       return;
     }
   }
@@ -74,7 +88,10 @@ void printLocalTime(int x, int y) {
   char dayBuf[20];
   strftime(dayBuf, sizeof(dayBuf), "%A", &timeinfo);
   static const char* const dayFonts[] = {AA_FONT_55, AA_FONT_48, AA_FONT_45};
-  loadLargestFitting(spr_time, dayBuf, kTimeSpriteW - kTimeMargin, dayFonts, 3);
+  static char dayCacheText[16] = {0};
+  static const char* dayCacheFont = nullptr;
+  loadLargestFitting(spr_time, dayBuf, kTimeSpriteW - kTimeMargin,
+                     dayFonts, 3, dayCacheText, sizeof(dayCacheText), &dayCacheFont);
   spr_time.println(dayBuf);
 
   spr_time.setTextColor(TFT_WHITE);
@@ -82,7 +99,10 @@ void printLocalTime(int x, int y) {
   char dateBuf[32];
   strftime(dateBuf, sizeof(dateBuf), "%B %d", &timeinfo);
   static const char* const dateFonts[] = {AA_FONT_45, AA_FONT_40, AA_FONT_35, AA_FONT_30};
-  loadLargestFitting(spr_time, dateBuf, kTimeSpriteW - kTimeMargin, dateFonts, 4);
+  static char dateCacheText[32] = {0};
+  static const char* dateCacheFont = nullptr;
+  loadLargestFitting(spr_time, dateBuf, kTimeSpriteW - kTimeMargin,
+                     dateFonts, 4, dateCacheText, sizeof(dateCacheText), &dateCacheFont);
   spr_time.println(dateBuf);
 
   spr_time.pushSprite(x, y);
@@ -165,15 +185,15 @@ static void drawForecastTomorrow(const ForecastParsed& f, int x, int y) {
 
   tft.loadFont(AA_FONT_15, SD);
   tft.setTextDatum(MC_DATUM);
-  tft.drawString(f.dayOfWeek, x + 30, y + 10);
+  tft.drawString(f.dayOfWeek, x, y + 10);
   tft.drawString(String(f.temperatureMin) + "°/" + String(f.temperatureMax) + "°",
-                 x + 30, y + 30);
-  tft.drawString("UV: " + String(f.uvIndex), x + 30, y + 50);
+                 x, y + 30);
+  tft.drawString("UV: " + String(f.uvIndex), x, y + 50);
   tft.drawString(String(f.windDirectionCardinal) + " " + String(f.windSpeed),
-                 x + 30, y + 70);
+                 x, y + 70);
   tft.drawString(String(f.precipChance) + "% " + String(f.qpf) + " in",
-                 x + 30, y + 90);
-  tft.drawString(f.wxPhraseShort, x + 30, y + 110);
+                 x, y + 90);
+  tft.drawString(f.wxPhraseShort, x, y + 110);
   tft.unloadFont();
 }
 
