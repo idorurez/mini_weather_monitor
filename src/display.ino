@@ -14,6 +14,37 @@
 static const int kTimeSpriteW = 270;
 static const int kTimeMargin  = 10;  // 5px cursor + 5px right slack
 
+// ---- boot status overlay --------------------------------------------------
+// Renders short status lines on the TFT during early boot so we have a
+// visible "terminal" without needing serial. bootStatus() is a no-op once
+// bootDone() has been called; bootDone() wipes the screen so the steady-state
+// weather UI can render onto a clean surface.
+static int   bootLineY     = 0;
+static const int kBootLineH = 18;        // px between rows when using textSize 2
+static bool  bootActive    = true;
+
+void bootStatus(const char* line) {
+  if (!bootActive) return;
+  if (bootLineY + kBootLineH > TFT_H) {
+    tft.fillScreen(TFT_BLACK);
+    bootLineY = 0;
+  }
+  tft.setTextSize(2);                 // built-in 5x8 font * 2 — no SD needed
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.setTextDatum(TL_DATUM);
+  tft.setCursor(5, bootLineY);
+  tft.print(line);
+  tft.setTextSize(1);                 // restore default
+  tft.setTextDatum(MC_DATUM);         // restore the default this project uses
+  bootLineY += kBootLineH;
+}
+
+void bootDone() {
+  if (!bootActive) return;
+  bootActive = false;
+  tft.fillScreen(TFT_BLACK);
+}
+
 // Pick the largest font that fits `text` within `budgetPx`, with per-call caching.
 // Callers pass a cacheText buffer + cacheFont pointer so the measurement loop runs
 // only when the rendered string changes (once a day for %A and %B %d, not once a second).
@@ -50,14 +81,28 @@ void clearNetBanner() {
   tft.fillRect(0, kBannerY, TFT_W, kBannerH, TFT_BLACK);
 }
 
-void drawNetBanner(NetState state) {
+// `detail` appends a short reason to the banner when relevant (HTTP code,
+// JSON error, SSID, etc). Pass nullptr to omit.
+void drawNetBanner(NetState state, const char* detail) {
+  char buf[80];
   const char* msg = "";
   uint16_t color = TFT_RED;
   switch (state) {
-    case NET_WIFI_FAILED:    msg = "WiFi failed"; break;
-    case NET_CAPTIVE_PORTAL: msg = "Captive portal"; color = TFT_YELLOW; break;
-    case NET_FETCH_FAILED:   msg = "Weather fetch failed"; color = TFT_ORANGE; break;
-    default: return;
+    case NET_WIFI_FAILED:
+      snprintf(buf, sizeof(buf), "WiFi failed: %.40s", detail ? detail : "");
+      msg = buf;
+      break;
+    case NET_CAPTIVE_PORTAL:
+      msg = "Captive portal";
+      color = TFT_YELLOW;
+      break;
+    case NET_FETCH_FAILED:
+      snprintf(buf, sizeof(buf), "Fetch: %.40s", detail ? detail : "unknown");
+      msg = buf;
+      color = TFT_ORANGE;
+      break;
+    default:
+      return;
   }
   tft.fillRect(0, kBannerY, TFT_W, kBannerH, TFT_BLACK);
   tft.loadFont(AA_FONT_15, SD);

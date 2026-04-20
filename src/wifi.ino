@@ -1,28 +1,37 @@
 // Returns true if associated, false otherwise. Caller decides what to render.
 bool wifiConnect() {
-  const unsigned long perAttemptMs = 20000;
-  const int maxRetries = 5;
+  const unsigned long perAttemptMs = 10000;
+  const int maxRetries = 3;
 
+  bootStatus("WiFi: enter");
   if (WiFi.status() == WL_CONNECTED) {
+    bootStatus("WiFi: already up");
     return true;
   }
 
+  bootStatus("WiFi: setHostname");
   WiFi.setHostname(config.hostname);
+  bootStatus("WiFi: onEvent+mode");
   WiFi.onEvent(WiFiEvent);
   WiFi.mode(WIFI_STA);
+  bootStatus("WiFi: begin");
   WiFi.begin(config.ssid, config.pass);
   Serial.printf("Connecting to %s\n", config.ssid);
+  bootStatus("WiFi: connecting...");
 
   unsigned long lastAttempt = millis();
   int retries = 0;
   while (WiFi.status() != WL_CONNECTED && retries < maxRetries) {
     if ((millis() - lastAttempt) > perAttemptMs) {
       retries++;
-      Serial.printf("Retry %d/%d\n", retries, maxRetries);
+      char buf[32];
+      snprintf(buf, sizeof(buf), "WiFi: retry %d/%d", retries, maxRetries);
+      bootStatus(buf);
       WiFi.disconnect();
       WiFi.begin(config.ssid, config.pass);
       lastAttempt = millis();
     }
+    esp_task_wdt_reset();   // keep the WDT happy across the long associate wait
     Serial.print('.');
     delay(500);
   }

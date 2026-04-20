@@ -15,41 +15,46 @@ bool isBehindCaptivePortal() {
   http.setTimeout(5000);
   http.setReuse(false);
   if (!http.begin("http://connectivitycheck.gstatic.com/generate_204")) {
+    logEvent("portal: http.begin failed");
     return true;
   }
   int code = http.GET();
   http.end();
   // Google's canary returns exactly 204 No Content when there's no portal.
-  return code != 204;
+  bool behind = (code != 204);
+  logEvent("portal: HTTP %d (%s)", code, behind ? "behind portal" : "clear");
+  return behind;
 }
 
 // Stream a GET into the given doc using a JSON filter to discard fields we
-// don't render. Returns true on success.
-static bool fetchJsonFiltered(const char* url, JsonDocument& doc, JsonDocument& filter) {
+// don't render. Returns detailed outcome so callers can log + render it.
+static FetchResult fetchJsonFiltered(const char* url, JsonDocument& doc, JsonDocument& filter) {
+  FetchResult r = {false, 0, ""};
   HTTPClient http;
   http.setTimeout(kHttpTimeoutMs);
   http.setReuse(false);
 
   if (!http.begin(url)) {
-    Serial.println("http.begin failed");
-    return false;
+    strlcpy(r.detail, "begin failed", sizeof(r.detail));
+    return r;
   }
 
   const char* hdrs[] = {"Content-Type"};
   http.collectHeaders(hdrs, 1);
 
-  int code = http.GET();
-  if (code != HTTP_CODE_OK) {
-    Serial.printf("HTTP %d for %s\n", code, url);
+  r.httpCode = http.GET();
+  if (r.httpCode != HTTP_CODE_OK) {
+    snprintf(r.detail, sizeof(r.detail), "HTTP %d", r.httpCode);
     http.end();
-    return false;
+    return r;
   }
 
   String ct = http.header("Content-Type");
   if (ct.length() && ct.indexOf("json") < 0) {
-    Serial.printf("Non-JSON content-type: %s — likely captive portal\n", ct.c_str());
+    // Trim to fit; usually the content-type string is short anyway.
+    snprintf(r.detail, sizeof(r.detail), "ct=%.30s", ct.c_str());
     http.end();
-    return false;
+    return r;
   }
 
   DeserializationError err = deserializeJson(
@@ -57,10 +62,13 @@ static bool fetchJsonFiltered(const char* url, JsonDocument& doc, JsonDocument& 
   http.end();
 
   if (err) {
-    Serial.printf("deserializeJson failed: %s\n", err.c_str());
-    return false;
+    snprintf(r.detail, sizeof(r.detail), "JSON: %.25s", err.c_str());
+    return r;
   }
-  return true;
+
+  r.ok = true;
+  strlcpy(r.detail, "ok", sizeof(r.detail));
+  return r;
 }
 
 // Helper: copy doc[key] string into a fixed buffer; empty string on miss.
@@ -126,8 +134,7 @@ static void fillFromDaypart(JsonObjectConst dp, int slot, ForecastParsed& out) {
 }
 
 // Fetch the 5-day forecast and populate today/tonight/tomorrow in one shot.
-// Returns true on full success.
-bool refreshForecast() {
+FetchResult refreshForecast() {
   String url = "https://api.weather.com/v3/wx/forecast/daily/5day?geocode=" +
                String(config.latitude) + "," + String(config.longitude) +
                "&format=json&units=e&language=en-US&apiKey=" + String(config.wu_api_key);
@@ -139,12 +146,14 @@ bool refreshForecast() {
   // 6KB is comfortable headroom for 5-day filtered output.
   DynamicJsonDocument doc(6144);
 
-  Serial.printf("[heap] before forecast fetch: %u\n", ESP.getFreeHeap());
-  bool ok = fetchJsonFiltered(url.c_str(), doc, filter);
-  Serial.printf("[heap] after  forecast fetch: %u\n", ESP.getFreeHeap());
-  if (!ok) {
+  uint32_t before = ESP.getFreeHeap();
+  FetchResult r = fetchJsonFiltered(url.c_str(), doc, filter);
+  uint32_t after = ESP.getFreeHeap();
+  logEvent("forecast: %s (heap %u->%u)", r.detail, before, after);
+
+  if (!r.ok) {
     today.valid = tonight.valid = tomorrow.valid = false;
-    return false;
+    return r;
   }
 
   JsonObjectConst dp = doc["daypart"][0];
@@ -158,10 +167,10 @@ bool refreshForecast() {
   tomorrow.temperatureMin = doc["calendarDayTemperatureMin"][1] | 0;
   tomorrow.valid = tomorrow.dayOfWeek[0] != '\0';
 
-  return true;
+  return r;
 }
 
-bool refreshLocation() {
+FetchResult refreshLocation() {
   String url = "https://api.weather.com/v3/location/point?geocode=" +
                String(config.latitude) + "," + String(config.longitude) +
                "&language=en-US&format=json&apiKey=" + String(config.wu_api_key);
@@ -171,14 +180,21 @@ bool refreshLocation() {
 
   DynamicJsonDocument doc(1024);
 
-  if (!fetchJsonFiltered(url.c_str(), doc, filter)) {
+  FetchResult r = fetchJsonFiltered(url.c_str(), doc, filter);
+  logEvent("location: %s", r.detail);
+
+  if (!r.ok) {
     location.valid = false;
-    return false;
+    return r;
   }
 
   copyStr(doc["location"]["city"], location.city, sizeof(location.city));
   copyStr(doc["location"]["adminDistrictCode"], location.state, sizeof(location.state));
   copyStr(doc["location"]["neighborhood"], location.neighborhood, sizeof(location.neighborhood));
   location.valid = location.city[0] != '\0';
-  return location.valid;
+  if (!location.valid) {
+    strlcpy(r.detail, "empty city", sizeof(r.detail));
+    r.ok = false;
+  }
+  return r;
 }

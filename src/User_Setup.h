@@ -35,6 +35,7 @@
 #define PWM1_RES   8
 #define PWM1_FREQ 70588
 
+#define LOAD_GLCD   // built-in 5x8 font; needed for tft.print() before any smooth font is loaded
 #define SMOOTH_FONT
 
 #define SPI_FREQUENCY  27000000

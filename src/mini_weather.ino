@@ -28,8 +28,10 @@
 // === backlight screen pwm
 // Target = what the light sensor wants right now.
 // Current = where the backlight actually is; glides toward target via pwmStep().
-int   pwmTarget  = 0;
-float pwmCurrent = 0;
+// Both start at a visible default so the boot splash shows up before the
+// light sensor's first reading lands; the lux loop will adjust from there.
+int   pwmTarget  = 35;
+float pwmCurrent = 35;
 unsigned long pwmStepTime = 0;
 const unsigned long pwmStepDelay = 20;  // ms between ramp steps
 const float pwmSmoothing = 0.12;        // 0..1; higher = faster fade
@@ -117,10 +119,48 @@ enum NetState {
 
 NetState netState = NET_OK;
 
+// Outcome of an HTTP fetch. `detail` carries a short human-readable reason
+// for the on-screen banner AND the SD log — "HTTP 302", "JSON invalid", etc.
+struct FetchResult {
+  bool ok;
+  int  httpCode;
+  char detail[40];
+};
+
 enum ForecastReq {
   FIVEDAY,
   CURRENT
 };
+
+// Append a timestamped line to /weather.log (and mirror to Serial).
+// Used when we can't see serial live — e.g. at work, where the device runs
+// headless and we want a postmortem when we get home.
+//
+// SD.open(FILE_APPEND) doesn't reliably auto-create the file across versions
+// of the arduino-esp32 SD library. If append fails we fall back to FILE_WRITE
+// (which always creates) so the very first call seeds the file.
+void logEvent(const char* fmt, ...) {
+  char line[160];
+  int n = snprintf(line, sizeof(line), "[%lu] ", millis());
+  va_list ap;
+  va_start(ap, fmt);
+  vsnprintf(line + n, sizeof(line) - n, fmt, ap);
+  va_end(ap);
+
+  Serial.println(line);
+  bootStatus(line);  // visible on TFT until bootDone() is called
+
+  File f = SD.open("/weather.log", FILE_APPEND);
+  if (!f) {
+    f = SD.open("/weather.log", FILE_WRITE);
+  }
+  if (f) {
+    f.println(line);
+    f.close();
+  } else {
+    Serial.println("  [logEvent] SD write failed");
+  }
+}
 
 enum Orientation {
   PORTRAIT = 2,
@@ -133,26 +173,32 @@ const int TFT_H = 480;
 
 // Refresh weather + location, updating netState and screen banners as needed.
 static void doWeatherRefresh() {
+  bootStatus("Refresh: enter");
   if (!wifiConnect()) {
     netState = NET_WIFI_FAILED;
-    drawNetBanner(netState);
+    logEvent("wifi: failed to connect to %s", config.ssid);
+    drawNetBanner(netState, config.ssid);
     return;
   }
+  logEvent("wifi: connected %s ip=%s", config.ssid, WiFi.localIP().toString().c_str());
+
   if (isBehindCaptivePortal()) {
     netState = NET_CAPTIVE_PORTAL;
-    drawNetBanner(netState);
+    drawNetBanner(netState, nullptr);
     return;
   }
-  bool fok = refreshForecast();
-  bool lok = refreshLocation();
-  if (fok && lok) {
+  FetchResult fr = refreshForecast();
+  FetchResult lr = refreshLocation();
+  if (fr.ok && lr.ok) {
     netState = NET_OK;
+    bootDone();   // wipe boot log; weather UI takes over from here
     clearNetBanner();
     drawForecast();
     drawLocation();
   } else {
     netState = NET_FETCH_FAILED;
-    drawNetBanner(netState);
+    // Prefer the forecast detail; fall back to location's if forecast was ok.
+    drawNetBanner(netState, fr.ok ? lr.detail : fr.detail);
   }
 }
 
@@ -167,11 +213,17 @@ void setup(void) {
   digitalWrite(SD_PIN, HIGH);
 
   tft.init();
+  tft.setRotation(oriented);
+  tft.invertDisplay(0);
   tft.fillScreen(TFT_BLACK);
+  bootStatus("Boot...");
 
   if (!SD.begin(SD_PIN)) {
     Serial.println("Card Mount Failed");
+    bootStatus("SD: mount FAILED");
     BlinkLED(2);
+  } else {
+    bootStatus("SD: mounted");
   }
 
   Wire.end();
@@ -190,33 +242,41 @@ void setup(void) {
   Serial.printf("SD Card Size: %lluMB\n", cardSize);
 
   GetSetConfig();
+  bootStatus(config.ssid[0] ? "Config: loaded" : "Config: missing!");
 
   if (!lightMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE)) {
     Serial.println(F("BH1750 init failed"));
+    bootStatus("BH1750: FAILED");
+  } else {
+    bootStatus("BH1750: ok");
   }
 
   if (!bme.begin(0x76)) {
     Serial.printf("BME280 init failed (sensorID=0x%x)\n", bme.sensorID());
+    bootStatus("BME280: FAILED");
+  } else {
+    bootStatus("BME280: ok");
   }
   bme.setSampling(Adafruit_BME280::MODE_FORCED,
                   Adafruit_BME280::SAMPLING_X1,
                   Adafruit_BME280::SAMPLING_X1,
                   Adafruit_BME280::SAMPLING_X1,
                   Adafruit_BME280::FILTER_OFF);
+  bootStatus("BME: sampling set");
   bme.takeForcedMeasurement();
+  bootStatus("BME: first read ok");
 
-  tft.begin();
   tft.invertDisplay(0);
-  tft.setRotation(oriented);
   tft.setTextDatum(MC_DATUM);
   tft.setTextColor(TFT_WHITE);
-  tft.fillScreen(TFT_BLACK);
-  tft.println("Loading...");
+  bootStatus("Pre-blink");
   BlinkLED(3);
+  bootStatus("Post-blink");
 
   // Watchdog covers the long blocking sections (wifi associate, http fetch).
   esp_task_wdt_init(WDT_TIMEOUT, true);
   esp_task_wdt_add(NULL);
+  bootStatus("WDT armed, refreshing...");
 
   doWeatherRefresh();
   weatherUpdateTime = millis();
