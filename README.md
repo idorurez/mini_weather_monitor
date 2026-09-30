@@ -5,13 +5,9 @@ After using a really crappy indoor temp and humidity monitor, I wanted to build 
 ## What it does
 
 * Indoor temperature (°F), humidity, and pressure from a BME280, refreshed every 60 seconds
-* Clock with day and date, synced over NTP, with auto-shrinking type so long day names still fit
-* Weather Underground forecast for today, tonight, and tomorrow: hi/lo, UV index, wind, precip chance, QPF, short phrase, and icon
-* Location line (city, state) from WU
+* Date and time, synced over NTP
+* Two-day forecast from Weather Underground: today and tomorrow, with a big icon showing today's weather (sun, clouds, rain, etc.)
 * Backlight that follows the room: a BH1750 ambient light sensor drives PWM with smooth ramping, no stepped jumps
-* Boot log rendered on the TFT itself, so you can see what's failing without a serial cable
-* On-screen banners for wifi / fetch failures, plus a timestamped log on the SD card (`/weather.log`) for postmortems
-* Hardware watchdog covering the long blocking bits (wifi associate, HTTP fetch)
 
 ## Hardware
 
