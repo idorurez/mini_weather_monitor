@@ -1,4 +1,4 @@
-# Yokai — Mini Weather Monitor
+# Amefuriko — Mini Weather Monitor
 
 After using a really crappy indoor temp and humidity monitor, I wanted to build one for myself to see if I could do better. This is the result. Is it better? I have no idea, but at least it also has a forecast I can trust, built the way I like.
 
